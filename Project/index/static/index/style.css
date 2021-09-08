@@ -1,0 +1,15 @@
+/*
+    This stylesheet is used by the base.html
+
+    As such, it's applied to *all* pages in the website.
+    Use this stylesheet to apply website-wide default styling / colours.
+ */
+
+body {
+    background-color: #121414;
+    color: lightgrey;
+}
+
+a {
+    color: cornflowerblue;
+}
