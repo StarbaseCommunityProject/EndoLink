@@ -11,7 +11,8 @@ services:
     build:
       context: ./Project
       dockerfile: Dockerfile
-    command: sh -c "python manage.py migrate &&
+    command: sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - './Project:/usr/src/website'

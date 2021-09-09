@@ -14,6 +14,12 @@ In case you want to run the webserver without Docker (not recommended), you can 
 
     The Index app is currently just the index page. See the `index/views.py` file for views, and `index/urls.py` for URLs. `index/templates/index` holds HTML / CSS / JS.
 
+
 - Account
     
     The Account app currently handles authentication, together with the Django auth app.
+  
+
+- ShipShop
+    
+    The ShipShop app will handle the ship catalogue, ship entry adding / editing / removing, ship searching, etc...
