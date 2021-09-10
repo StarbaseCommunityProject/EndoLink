@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import SignUpForm
+from .forms import SignUpForm, AccountEditForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
@@ -22,3 +22,16 @@ def signup(request):
 @login_required
 def account_page(request):
     return HttpResponse(render(request, 'account/account_page.html'))
+
+@login_required
+def account_edit_page(request):
+    
+    form = AccountEditForm(request.POST or None, instance=request.user.userextrainfo)
+
+    if form.is_valid() and request.POST:
+        extraUserInfo = form.save(commit=False)
+        extraUserInfo.user = request.user
+        extraUserInfo.save()
+        return redirect('/account')
+
+    return HttpResponse(render(request, 'account/account_edit_page.html', {'form': form}))
