@@ -13,4 +13,7 @@
             <textarea id="bio" name="bio" style="display: inline-block" disabled>{{ request.user.userextrainfo.bio|default_if_none:"" }}</textarea>
         </span>
     </div>
+
+    
+    <a class="mt-4 block text-blue-400 underline" href="/account/edit">Edit account information</a>
 {% endblock %}
