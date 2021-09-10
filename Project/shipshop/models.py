@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Count
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.timezone import now
@@ -18,9 +17,9 @@ class ShipEntry(models.Model):
     description = models.TextField(max_length=6000, default="", null=True, blank=True)
     tags = models.JSONField(default=list, null=True, blank=True)
     attributes = models.JSONField(default=dict, null=True, blank=True)
-    images = models.ManyToManyField(ShipImage)
-    price = models.IntegerField(validators=[MinValueValidator(0)])
-    price_blueprint = models.IntegerField(validators=[MinValueValidator(0)])
+    images = models.ManyToManyField(ShipImage, blank=True)
+    price = models.IntegerField(validators=[MinValueValidator(0)], null=True, blank=True)
+    price_blueprint = models.IntegerField(validators=[MinValueValidator(0)], null=True, blank=True)
     created_at = models.DateTimeField(default=now, null=False, blank=False)
     updated_at = models.DateTimeField(default=now, null=False, blank=False)
     is_public = models.BooleanField(default=True, null=False, blank=False)

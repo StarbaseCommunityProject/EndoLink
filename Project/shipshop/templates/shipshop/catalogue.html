@@ -2,7 +2,7 @@
 {% block title %}Ship Catalogue{% endblock %}
 {% block content %}
     {% for ship in ships %}
-        <div>
+        <div class="md:container shadow-2xl p-2 m-4">
             <h3>{{ ship.ship_name }}</h3>
             By: {{ ship.creator.username }} ({{ ship.creator.userextrainfo.in_game_name }})<br>
             Last updated: {{ ship.updated_at }}<br>
@@ -21,6 +21,5 @@
                 {{ tag }} |
             {% endfor %}
         </div>
-        <hr>
     {% endfor %}
 {% endblock %}
