@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
 from django.db.models import Count
-from .models import ShipEntry, ShipImage
+from .models import ShipEntry, ShipImage, ShipLike, ShipWishlist
 from .forms import ShipCreationForm
 import json
 
@@ -104,3 +104,69 @@ def ship_creation(request):
             ship.images.add(new_ship_image)
 
     return HttpResponse(render(request, 'shipshop/ship_creation.html', {'form': form}))
+
+
+@login_required
+def like_ship(request, ship_id):
+    response = {'success': False}
+    if ShipLike.objects.filter(user=request.user, liked_ship_id=ship_id).first():
+        return JsonResponse(response)
+
+    ship = ShipEntry.objects.filter(id=ship_id).first()
+    if not ship:
+        return JsonResponse(response)
+
+    new_ship_like = ShipLike(user=request.user, liked_ship=ship)
+    try:
+        new_ship_like.save()
+        response = {'success': True}
+    except Exception as e:
+        response["exception"] = e.args[0]
+
+    return JsonResponse(response)
+
+
+@login_required
+def unlike_ship(request, ship_id):
+    response = {'success': False}
+    ship_like = ShipLike.objects.filter(user=request.user, liked_ship_id=ship_id).first()
+    if not ship_like:
+        return JsonResponse(response)
+
+    if ship_like.delete():
+        response = {'success': True}
+
+    return JsonResponse(response)
+
+
+@login_required
+def wishlist_ship(request, ship_id):
+    response = {'success': False}
+    if ShipWishlist.objects.filter(user=request.user, wishlisted_ship_id=ship_id).first():
+        return JsonResponse(response)
+
+    ship = ShipEntry.objects.filter(id=ship_id).first()
+    if not ship:
+        return JsonResponse(response)
+
+    new_ship_wishlist = ShipWishlist(user=request.user, wishlisted_ship=ship)
+    try:
+        new_ship_wishlist.save()
+        response = {'success': True}
+    except Exception as e:
+        response["exception"] = e.args[0]
+
+    return JsonResponse(response)
+
+
+@login_required
+def unwishlist_ship(request, ship_id):
+    response = {'success': False}
+    ship_wishlist = ShipWishlist.objects.filter(user=request.user, wishlisted_ship_id=ship_id).first()
+    if not ship_wishlist:
+        return JsonResponse(response)
+
+    if ship_wishlist.delete():
+        response = {'success': True}
+
+    return JsonResponse(response)
