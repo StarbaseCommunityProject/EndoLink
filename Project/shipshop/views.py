@@ -11,13 +11,15 @@ import json
 # Create your views here.
 
 
-def clean_serialized_data(ser_data):
+def clean_serialized_data(ser_data, dump=False):
     data = json.loads(ser_data)
     for entry in data:
         del entry['model']
         # In case we also want to remove the primary key from the data:
         # del entry['pk']
-    return json.dumps(data)
+    if dump:
+        return json.dumps(data)
+    return data
 
 
 def catalogue(request):
@@ -27,7 +29,7 @@ def catalogue(request):
 
 def ship_search(request):
     """
-    Example query: http://localhost:8000/ship_search?search=centauri&tags=miner,mining%20laser&attributes=cargo%20crates:200
+    Example query: http://localhost:8000/ship_search?search=centauri&tags=miner,long+range,Mining+Laser&attributes=speed:100,cargo%20crates:200&sort=updated&page=1&entries_per_page=5
     TODO: Needs some more sanitising of query inputs & error catching.
     :param request: Request data
     :return: JSON object containing query information and found ships.
@@ -184,7 +186,7 @@ def unwishlist_ship(request, ship_id):
 @login_required
 def wishlist(request):
     wishlisted_ships = ShipWishlist.objects.filter(user=request.user)
-    result = serializers.serialize('json', wishlisted_ships)
+    result = serializers.serialize('json', wishlisted_ships, fields='wishlisted_ship')
 
     return JsonResponse({'user_id': request.user.id, 'wishlisted_ships': clean_serialized_data(result)})
 
@@ -192,6 +194,6 @@ def wishlist(request):
 @login_required
 def likes(request):
     liked_ships = ShipLike.objects.filter(user=request.user)
-    result = serializers.serialize('json', liked_ships)
+    result = serializers.serialize('json', liked_ships, fields='liked_ship')
 
     return JsonResponse({'user_id': request.user.id, 'liked_ships': clean_serialized_data(result)})
