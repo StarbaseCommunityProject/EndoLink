@@ -10,4 +10,6 @@ urlpatterns = [
     path('unlike_ship/<int:ship_id>', views.unlike_ship, name='unlike_ship'),
     path('wishlist_ship/<int:ship_id>', views.wishlist_ship, name='wishlist_ship'),
     path('unwishlist_ship/<int:ship_id>', views.unwishlist_ship, name='unwishlist_ship'),
+    path('wishlist', views.wishlist, name='wishlisted_ships'),
+    path('likes', views.likes, name='liked_ships'),
 ]

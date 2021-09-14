@@ -11,6 +11,15 @@ import json
 # Create your views here.
 
 
+def clean_serialized_data(ser_data):
+    data = json.loads(ser_data)
+    for entry in data:
+        del entry['model']
+        # In case we also want to remove the primary key from the data:
+        # del entry['pk']
+    return json.dumps(data)
+
+
 def catalogue(request):
     ships = ShipEntry.objects.all()
     return HttpResponse(render(request, 'shipshop/catalogue.html', {'ships': ships}))
@@ -86,7 +95,7 @@ def ship_search(request):
     ship_count_this_page = len(ships)
 
     ships = serializers.serialize('json', ships)
-    result = {'page': page_nr, 'total_pages': paginator.num_pages, 'total_entries': ship_count, 'total_entries_on_page': ship_count_this_page, 'ships': ships, 'query': {'search_term': search_term, 'tags': tags, 'attributes': attributes, 'sort': sort, 'page': page_nr, 'entries_per_page': entries_per_page}}
+    result = {'page': page_nr, 'total_pages': paginator.num_pages, 'total_entries': ship_count, 'total_entries_on_page': ship_count_this_page, 'ships': clean_serialized_data(ships), 'query': {'search_term': search_term, 'tags': tags, 'attributes': attributes, 'sort': sort, 'page': page_nr, 'entries_per_page': entries_per_page}}
     return JsonResponse(result)
 
 
@@ -170,3 +179,19 @@ def unwishlist_ship(request, ship_id):
         response = {'success': True}
 
     return JsonResponse(response)
+
+
+@login_required
+def wishlist(request):
+    wishlisted_ships = ShipWishlist.objects.filter(user=request.user)
+    result = serializers.serialize('json', wishlisted_ships)
+
+    return JsonResponse({'user_id': request.user.id, 'wishlisted_ships': clean_serialized_data(result)})
+
+
+@login_required
+def likes(request):
+    liked_ships = ShipLike.objects.filter(user=request.user)
+    result = serializers.serialize('json', liked_ships)
+
+    return JsonResponse({'user_id': request.user.id, 'liked_ships': clean_serialized_data(result)})
