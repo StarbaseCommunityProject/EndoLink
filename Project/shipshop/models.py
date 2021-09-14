@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, ValidationError
 from django.utils.timezone import now
 
 # Create your models here.
@@ -13,7 +13,7 @@ class ShipImage(models.Model):
 
 class ShipEntry(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    ship_name = models.CharField(max_length=150, default="", null=True, blank=True)
+    ship_name = models.CharField(max_length=150, default="", null=False, blank=False)
     description = models.TextField(max_length=6000, default="", null=True, blank=True)
     tags = models.JSONField(default=list, null=True, blank=True)
     attributes = models.JSONField(default=dict, null=True, blank=True)
@@ -29,6 +29,14 @@ class ShipEntry(models.Model):
     def likes(self):
         return self.shiplike_set.count()
 
+    def clean(self):
+        """
+        Ran upon validation by a ModelForm. Not called during a .save()!
+        """
+        super().clean()
+        if self.price is None and self.price_blueprint is None:
+            raise ValidationError('Ship price and blueprint price are both None')
+
 
 class ShipLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -36,3 +44,11 @@ class ShipLike(models.Model):
 
     class Meta:
         unique_together = ('user', 'liked_ship')
+
+
+class ShipWishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    wishlisted_ship = models.ForeignKey(ShipEntry, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'wishlisted_ship')
