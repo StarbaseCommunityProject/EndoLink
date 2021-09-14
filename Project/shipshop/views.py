@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
-from .models import ShipEntry, ShipImage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import serializers
+from django.db.models import Count
+from .models import ShipEntry, ShipImage
 from .forms import ShipCreationForm
 import json
 
@@ -26,6 +27,7 @@ def ship_search(request):
     tags = request.GET.get('tags') or None                          # [tag1, tag2, ...]
     attributes = request.GET.get('attributes') or None              # {'attribute': value, ...}
     updated_after = request.GET.get('updated_after') or None        # datetime string TODO
+    sort = request.GET.get('sort') or None                          # "update"/"likes"/"alphabetical"
     page_nr = request.GET.get('page') or 1                          # 1
     entries_per_page = request.GET.get('entries_per_page') or 10    # 10
 
@@ -51,7 +53,24 @@ def ship_search(request):
     if return_all:
         ships = ships.all()
 
-    ships = ships.order_by('updated_at')
+    ships = ships.annotate(likes_count=Count('shiplike'))
+
+    if sort:
+        if sort.lower() == "update":
+            ships = ships.order_by('-updated_at')
+        elif sort.lower() == "likes":
+            ships = ships.order_by('-likes_count')
+        elif sort.lower() == "alphabetical":
+            ships = ships.order_by('ship_name')
+        else:
+            ships = ships.order_by('-created_at')
+    else:
+        ships = ships.order_by('-created_at')
+
+    try:
+        entries_per_page = max(int(entries_per_page), 1)
+    except ValueError:
+        entries_per_page = 10
     paginator = Paginator(ships, entries_per_page)
 
     try:
@@ -62,11 +81,12 @@ def ship_search(request):
         page_nr = paginator.num_pages
 
     ship_count = len(ships)
+    page_nr = int(page_nr)
     ships = paginator.page(page_nr)
     ship_count_this_page = len(ships)
 
     ships = serializers.serialize('json', ships)
-    result = {'page': 1, 'total_pages': paginator.num_pages, 'total_entries': ship_count, 'total_entries_on_page': ship_count_this_page, 'ships': ships, 'query': {'search_term': search_term, 'tags': tags, 'attributes': attributes, 'page': page_nr, 'ships_per_page': entries_per_page}}
+    result = {'page': page_nr, 'total_pages': paginator.num_pages, 'total_entries': ship_count, 'total_entries_on_page': ship_count_this_page, 'ships': ships, 'query': {'search_term': search_term, 'tags': tags, 'attributes': attributes, 'sort': sort, 'page': page_nr, 'entries_per_page': entries_per_page}}
     return JsonResponse(result)
 
 
