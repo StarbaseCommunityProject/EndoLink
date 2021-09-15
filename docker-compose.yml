@@ -6,14 +6,18 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - DJANGO_SUPERUSER_USERNAME=Admin
+      - DJANGO_SUPERUSER_PASSWORD=Admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
 #     IMPORTANT: DO NOT USE THESE SETTINGS IN THE ACTUAL PRODUCTION SERVER.
   website:
     build:
       context: ./Project
       dockerfile: Dockerfile
-    command: sh -c "python manage.py makemigrations &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+    command:  sh -c "python manage.py makemigrations &&
+              python manage.py migrate &&
+              createsuperuser --noinput &&
+              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - './Project:/usr/src/website'
     ports:
