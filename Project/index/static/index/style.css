@@ -71,7 +71,7 @@ Footer Section
 
   /*
 
-  Login Styling
+  Login/Register Styling
 
   */
 
@@ -176,6 +176,97 @@ body {
 
 /* 
 
-  End of Login Section
+  End of Login/Register Styling
+
+  */
+
+/*
+
+ Beginning of Profile Section
+
+ */
+
+  .text-white {
+    color: #fff !important;
+}
+
+.ui-bg-cover {
+    background-color: transparent;
+    background-position: center center;
+    background-size: cover;
+}
+.ui-bg-overlay-container .ui-bg-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+}
+
+.ui-bg-overlay-container, .ui-bg-video-container {
+  position: relative; 
+}
+
+.bg-dark {
+    background-color: rgba(24,28,33,0.9) !important;
+}
+.opacity-50 {
+    opacity: .5 !important;
+}
+.bg-dark {
+    background-color: rgba(24,28,33,0.9) !important;
+}
+
+@media (min-width: 992px){
+    .container, .container-fluid {
+        padding-right: 2rem;
+        padding-left: 2rem;
+    }
+}
+
+.ui-w-100 {
+    width: 200px !important;
+    height: auto;
+}
+
+
+
+ .container {
+  position: relative;
+  width: 50%;
+}
+
+
+
+
+.container .btn {
+position: relative;
+top: 20.5;
+left: -179;
+transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);
+background-color: #555;
+color: white;
+font-size: 10px;
+line-height: 28px;
+right: 10px;
+z-index: 999;
+height: 29px;
+padding: 9px 10px;
+border: none;
+cursor: pointer;
+border-radius: 5px;
+max-width: 100%;
+display: inline-block
+}
+
+.container .btn:hover {
+  background-color: black;
+}
+
+  /* 
+
+  End of Profile Section
 
   */
