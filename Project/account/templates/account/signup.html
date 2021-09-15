@@ -1,23 +1,10 @@
 {% extends "index/base.html" %}
 {% block title %}Signup{% endblock %}
 {% block content %}
-
-<div class="login-page">
-  <div class="form">
-   
-    <form method="POST" class="login-form" action="/account/signup">
-      {% csrf_token %}
-      <input type="text" placeholder="Username" {{ form.username }} 
-      <input type="password" placeholder="Password" {{ form.password }}/>
-      <input type="password" placeholder="Repeat Password" {{ form.password }}/>
-      <input type="text" placeholder="Email" {{ form.email }}
-    <i>By signing up, you agree to our <a style="color: bisque;" href="#">Terms Of Usage</a></i>
-    <br>
-    <br>
-      <button type="submit">Sign Up</button>
-
-    </form>
-
-  </div>
-</div>
+<h2>Sign up</h2>
+<form method="post" action="/account/signup">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Sign up</button>
+</form>
 {% endblock %}

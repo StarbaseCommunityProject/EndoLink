@@ -1,17 +1,10 @@
 {% extends "index/base.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
-
-<div class="login-page">
-  <div class="form">
-   
-    <form method="POST" class="login-form">
-      {% csrf_token %}
-      <input type="text" placeholder="Username" {{ form.username }}
-      <input type="password" placeholder="Password" {{ form.password }}
-      <button type="submit">Log In</button>
-
-    </form>
-  </div>
-</div>
+<h2>Log In</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Log In</button>
+</form>
 {% endblock %}
