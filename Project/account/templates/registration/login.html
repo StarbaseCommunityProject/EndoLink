@@ -2,14 +2,27 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+
+<style>
+.test {
+font-family: 'Rubik Mono One', sans-serif;
+font-size: 25;
+}
+</style>
 <div class="login-page">
   <div class="form">
-   
+   <a class="test">Login</a>
+   <br>
+   <br>
     <form method="POST" class="login-form">
       {% csrf_token %}
       <input type="text" placeholder="Username" {{ form.username }}
       <input type="password" placeholder="Password" {{ form.password }}
       <button type="submit">Log In</button>
+      <a>Don't have an account? <a style="color: antiquewhite;" href="">Register here!</a></a>
 
     </form>
   </div>
