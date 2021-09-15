@@ -12,13 +12,13 @@
         </div>
         <div class="media-body ml-5">
           <h4 style="font-size: 20;" class="font-weight-bold mb-4"><b>{{ request.user.username }}</b></h4>
-            <h4>In Game Name: <a style="color: gray;">{{ request.user.userextrainfo.in_game_name|default_if_none:"" }} N/A</a></h4> <!--- If no data is set for the user, please make it so it says N/A. The current N/A is just there to show what it should look like.-->
-            <h4>Discord Username: <a style="color: gray;">{{ request.user.userextrainfo.discord_name|default_if_none:"" }} N/A</a></h4> <!--- If no data is set for the user, please make it so it says N/A. The current N/A is just there to show what it should look like.-->
-            <h4>Forum Name: <a style="color: gray;">{{ request.user.userextrainfo.forum_name|default_if_none:"" }} N/A</a></h4> <!--- If no data is set for the user, please make it so it says N/A. The current N/A is just there to show what it should look like.-->
+            <h4>In Game Name: <a style="color: gray;">{{ request.user.userextrainfo.in_game_name|default:"N/A" }}</a></h4>
+            <h4>Discord Username: <a style="color: gray;">{{ request.user.userextrainfo.discord_name|default:"N/A" }}</a></h4>
+            <h4>Forum Name: <a style="color: gray;">{{ request.user.userextrainfo.forum_name|default:"N/A" }}</a></h4>
             <br>
             <br>
             <br>
-            <h4>About Me: <br><br> <a style="color: gray;">{{ request.user.userextrainfo.bio|default_if_none:"" }} This is a default about me. To change it, go to your account settings.</a></h4> <!--- If no data is set for the user, please make it so it says the text. The current text is just there to show what it should look like.-->
+            <h4>About Me: <br><br> <a style="color: gray;">{{ request.user.userextrainfo.bio|default:"This is a default about me. To change it, go to your account settings." }}</a></h4>
           </div>
           </div>
       </div>

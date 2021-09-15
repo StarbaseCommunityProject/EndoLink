@@ -20,8 +20,8 @@ font-size: 25;
     <form method="POST" class="login-form" action="/account/signup">
       {% csrf_token %}
       <input type="text" placeholder="Username" {{ form.username }} 
-      <input type="password" placeholder="Password" {{ form.password }}/>
-      <input type="password" placeholder="Repeat Password" {{ form.password }}/>
+      <input type="password" placeholder="Password" {{ form.password1 }}/>
+      <input type="password" placeholder="Repeat Password" {{ form.password2 }}/>
       <input type="text" placeholder="Email" {{ form.email }}
     <i>By signing up, you agree to our <a style="color: bisque;" href="#">Terms Of Usage</a></i>
     <br>
