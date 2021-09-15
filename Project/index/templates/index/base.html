@@ -2,12 +2,14 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'index/style.css' %}">
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}EndoLink{% endblock %}</title>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/19dda2defe.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -53,6 +55,21 @@
     <main class="container mx-auto mt-12">
         {% block content %}
         {% endblock %}
+
     </main>
+</body>
+        
+<body>
+    <div class="footer-basic">
+        <footer>
+            
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Terms of Usage</a></li>
+                <li class="list-inline-item"><a href="https://discord.gg/D9pNdqWfxp">Discord</a></li>
+        
+            </ul>
+            <p class="disclaimer">EndoLink is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Frozenbyte.</p>
+        </footer>
+    </div>
 </body>
 </html>
