@@ -7,26 +7,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
 
 <style>
-.test {
+.register-text {
 font-family: 'Rubik Mono One', sans-serif;
 font-size: 25;
 }
 </style>
 <div class="login-page">
   <div class="form">
-    <a class="test">Register</a>
+    <a class="register-text">Register</a>
 <br>
 <br>
     <form method="POST" class="login-form" action="/account/signup">
       {% csrf_token %}
       <input type="text" placeholder="Username" {{ form.username }} 
-      <input type="password" placeholder="Password" {{ form.password1 }}/>
-      <input type="password" placeholder="Repeat Password" {{ form.password2 }}/>
+      <input type="password" placeholder="Password" {{ form.password1 }}
+      <input type="password" placeholder="Repeat Password" {{ form.password2 }}
       <input type="text" placeholder="Email" {{ form.email }}
     <i>By signing up, you agree to our <a style="color: bisque;" href="#">Terms Of Usage</a></i>
     <br>
     <br>
-      <button type="submit">Sign Up</button>
+      <button type="submit">Register</button>
 
     </form>
 
