@@ -1,10 +1,30 @@
 {% extends "index/base.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<h2>Log In</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+
+<style>
+.login-text {
+font-family: 'Rubik Mono One', sans-serif;
+font-size: 25;
+}
+</style>
+<div class="login-page">
+  <div class="form">
+   <a class="login-text">Login</a>
+   <br>
+   <br>
+    <form method="POST" class="login-form">
+      {% csrf_token %}
+      <input type="text" placeholder="Username" {{ form.username }}
+      <input type="password" placeholder="Password" {{ form.password }}
+      <button type="submit">Log In</button>
+      <a>Don't have an account? <a style="color: antiquewhite;" href="">Register here!</a></a>
+
+    </form>
+  </div>
+</div>
 {% endblock %}

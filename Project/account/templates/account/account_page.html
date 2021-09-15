@@ -1,19 +1,29 @@
 {% extends "index/base.html" %}
 {% block title %}Account{% endblock %}
 {% block content %}
-    <div>
-        <h2>Hi there, {{ request.user.username }}!</h2>
-        <ul>
-            <li>In Game Name: {{ request.user.userextrainfo.in_game_name|default_if_none:"" }}</li>
-            <li>Discord Username: {{ request.user.userextrainfo.discord_name|default_if_none:"" }}</li>
-            <li>Forum Username: {{ request.user.userextrainfo.forum_name|default_if_none:"" }}</li>
-        </ul>
-        <span style="display: inline-block">
-            <label for="bio" style="display: block">User bio:</label>
-            <textarea id="bio" name="bio" style="display: inline-block" disabled>{{ request.user.userextrainfo.bio|default_if_none:"" }}</textarea>
-        </span>
+<div class="ui-bg-cover ui-bg-overlay-container text-white">
+  <script src="https://kit.fontawesome.com/19dda2defe.js" crossorigin="anonymous"></script>
+    <div  class="ui-bg-overlay bg-dark opacity-50"></div>
+    <div  class="container py-5"> 
+      <div class=" media col-md-10 col-lg-8 col-xl-7 p-0 my-4 mx-auto">
+        <div class=“container”>
+          <img style="float: left; padding: 7px;" src="https://www.skyjak.xyz/Bard.png" alt class="img-holder d-block ui-w-100 rounded-circle">
+          <button onclick="window.location.href='account/edit'" class="btn fa-icon-pencil"><i class="fas fa-pencil-alt"></i></button>
+        </div>
+        <div class="media-body ml-5">
+          <h4 style="font-size: 20;" class="font-weight-bold mb-4"><b>{{ request.user.username }}</b></h4>
+            <h4>In Game Name: <a style="color: gray;">{{ request.user.userextrainfo.in_game_name|default:"N/A" }}</a></h4>
+            <h4>Discord Username: <a style="color: gray;">{{ request.user.userextrainfo.discord_name|default:"N/A" }}</a></h4>
+            <h4>Forum Name: <a style="color: gray;">{{ request.user.userextrainfo.forum_name|default:"N/A" }}</a></h4>
+            <br>
+            <br>
+            <br>
+            <h4>About Me: <br><br> <a style="color: gray;">{{ request.user.userextrainfo.bio|default:"This is a default about me. To change it, go to your account settings." }}</a></h4>
+          </div>
+          </div>
+      </div>
     </div>
-
-    
-    <a class="mt-4 block text-blue-400 underline" href="/account/edit">Edit account information</a>
+  <hr />
+  <br>
+  <!--- this section could contain something like their listed ships, community guides, yolol scripts or their faction page. or all of that! --->
 {% endblock %}

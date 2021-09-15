@@ -23,3 +23,5 @@ In case you want to run the webserver without Docker (not recommended), you can 
 - ShipShop
     
     The ShipShop app will handle the ship catalogue, ship entry adding / editing / removing, ship searching, etc...
+
+.
