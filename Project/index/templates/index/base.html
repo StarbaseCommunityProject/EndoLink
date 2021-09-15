@@ -18,9 +18,26 @@
             <div class="p-5 flex flex-wrap justify-between ">
 
                 <a href="/"><h1 class="text-2xl font-bold">Endo Link</h1></a>
+                
     
                 <div class="flex flex-wrap gap-5">
                     {% if user.is_authenticated %}
+                    <a href="">
+                        <i class="fas fa-question mr-2"></i>
+                        About Us
+                    </a>
+                    <a href="">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        Faction Finder
+                    </a>
+                    <a href="">
+                        <i class="fas fa-book mr-2"></i>
+                        Guides
+                    </a>
+                    <a href="/catalogue">
+                        <i class="fas fa-rocket mr-2"></i>
+                        Ship Catalogue
+                    </a>
                         <a href="/account">
                             <i class="fas fa-user mr-2"></i>
                             Account
@@ -36,6 +53,22 @@
                             </a>
                         {% endif %}
                     {% else %}
+                    <a href="">
+                        <i class="fas fa-question mr-2"></i>
+                        About Us
+                    </a>
+                    <a href="">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        Faction Finder
+                    </a>
+                    <a href="">
+                        <i class="fas fa-book mr-2"></i>
+                        Guides
+                    </a>
+                    <a href="/catalogue">
+                        <i class="fas fa-rocket mr-2"></i>
+                        Ship Catalogue
+                    </a>
                         <a href="/account/login">
                             <i class="fas fa-sign-in-alt mr-2"></i>
                             Login
