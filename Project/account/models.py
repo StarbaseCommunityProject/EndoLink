@@ -14,7 +14,7 @@ class UserExtraInfo(models.Model):
     discord_name = models.CharField(max_length=100, default="", null=True, blank=True)
     forum_name = models.CharField(max_length=100, default="", null=True, blank=True)
 
-    bio = models.CharField(max_length=1000, default="", null=True, blank=True)
+    bio = models.TextField(max_length=1000, default="", null=True, blank=True)
 
     home_origin = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(30)], null=True, blank=True)
 

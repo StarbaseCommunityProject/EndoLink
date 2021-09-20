@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from .models import UserExtraInfo
 
+
 class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=25)
     email = forms.EmailField(max_length=150)
@@ -11,6 +12,7 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
 
 class AccountEditForm(ModelForm):
 
