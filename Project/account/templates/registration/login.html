@@ -19,8 +19,8 @@ font-size: 25;
    <br>
     <form method="POST" class="login-form">
       {% csrf_token %}
-      <input type="text" placeholder="Username" {{ form.username }}
-      <input type="password" placeholder="Password" {{ form.password }}
+      <input style="color: black;"type="text" placeholder="Username" {{ form.username }}
+      <input style="color: black;"type="password" placeholder="Password" {{ form.password }}
       <button type="submit">Log In</button>
       <a>Don't have an account? <a style="color: antiquewhite;" href="">Register here!</a></a>
 

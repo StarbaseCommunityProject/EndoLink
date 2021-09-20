@@ -25,12 +25,12 @@ Footer Section
     padding:40px 0;
     background-color:#ffffff;
     color:#b3bfca;
-    position: fixed;
     padding: 10px 10px 0px 10px;
-    bottom: 10%;
+    bottom: 0;
     width: 100%;
     height: 40px;
     background: #1F2937;
+    
   }
   
   .footer-basic ul {
@@ -46,11 +46,7 @@ Footer Section
     padding:0 10px;
   }
   
-  .footer-basic ul a {
-    color:inherit;
-    text-decoration:none;
-    opacity:0.8;
-  }
+  
 
   
   .footer-basic .disclaimer {
@@ -246,7 +242,6 @@ top: 20.5;
 left: -179;
 transform: translate(-50%, -50%);
 -ms-transform: translate(-50%, -50%);
-background-color: #555;
 color: white;
 font-size: 10px;
 line-height: 28px;
@@ -261,12 +256,14 @@ max-width: 100%;
 display: inline-block
 }
 
-.container .btn:hover {
-  background-color: black;
-}
 
   /* 
 
   End of Profile Section
 
   */
+
+
+
+
+  
