@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views.generic import View
 import requests
+import time
 import os
 
 # Create your views here.
@@ -10,10 +12,24 @@ def index(request):
     return HttpResponse(render(request, 'index/index.html'))
 
 
-def get_player_count(request):
-    api_key = os.getenv('STEAM_API_KEY', '')
-    app_id = 454120
+class GetPlayerCountView(View):
+    # TODO: Potentially log player count to get historical Starbase data?
+    cached_player_count = 0
+    time_since_player_count_request = time.time() - 0   # Prevents an unlikely call within the first 5 seconds of the site being up from showing 0 users.
 
-    starbase_player_count_url = f"https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key={api_key}&format=json&appid={app_id}"
-    player_count_request = requests.get(starbase_player_count_url)
-    return JsonResponse({'player_count': player_count_request.json()['response']['player_count']})
+    @classmethod
+    def get(cls, request):
+        cached = True
+        if time.time() - cls.time_since_player_count_request >= 5:
+            cls.time_since_player_count_request = time.time()
+
+            cached = False
+
+            api_key = os.getenv('STEAM_API_KEY', '')
+            app_id = 454120
+
+            starbase_player_count_url = f"https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key={api_key}&format=json&appid={app_id}"
+            player_count_request = requests.get(starbase_player_count_url)
+            cls.cached_player_count = player_count_request.json()['response']['player_count']
+
+        return JsonResponse({'player_count': cls.cached_player_count, 'cached': cached})
