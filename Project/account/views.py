@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import SignUpForm, AccountEditForm
+from .models import UserExtraInfo
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -21,12 +23,13 @@ def signup(request):
 
 @login_required
 def account_page(request):
-    return HttpResponse(render(request, 'account/account_page.html'))
+    try:
+        user_extra_info = request.user.userextrainfo
+    except ObjectDoesNotExist:
+        user_extra_info = UserExtraInfo(user=request.user)
+        user_extra_info.save()
 
-@login_required
-def account_edit_page(request):
-    
-    form = AccountEditForm(request.POST or None, instance=request.user.userextrainfo)
+    form = AccountEditForm(request.POST or None, instance=user_extra_info)
 
     if form.is_valid() and request.POST:
         extraUserInfo = form.save(commit=False)
