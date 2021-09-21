@@ -18,6 +18,8 @@ class UserExtraInfo(models.Model):
 
     home_origin = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(30)], null=True, blank=True)
 
+    profile_picture = models.ImageField(null=True, blank=True, upload_to='profile_pictures')
+
     registered_on = models.DateTimeField(default=now)
 
     def __str__(self):

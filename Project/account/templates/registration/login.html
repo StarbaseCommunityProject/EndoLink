@@ -9,7 +9,7 @@
 <style>
 .login-text {
 font-family: 'Rubik Mono One', sans-serif;
-font-size: 25;
+font-size: 25px;
 }
 </style>
 <div class="login-page">
@@ -19,8 +19,8 @@ font-size: 25;
    <br>
     <form method="POST" class="login-form">
       {% csrf_token %}
-      <input style="color: black;"type="text" placeholder="Username" {{ form.username }}
-      <input style="color: black;"type="password" placeholder="Password" {{ form.password }}
+      <input style="color: black;" type="text" placeholder="Username" name="username">
+      <input style="color: black;" type="password" placeholder="Password" name="password">
       <button type="submit">Log In</button>
       <a>Don't have an account? <a style="color: antiquewhite;" href="">Register here!</a></a>
 

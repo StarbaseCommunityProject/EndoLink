@@ -34,6 +34,7 @@ def account_page(request):
     if form.is_valid() and request.POST:
         extra_user_info = form.save(commit=False)
         extra_user_info.user = request.user
+        extra_user_info.profile_picture = request.FILES['profile_picture']
         extra_user_info.save()
         return redirect('/account')
 
