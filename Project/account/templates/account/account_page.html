@@ -31,19 +31,19 @@
         <div class="form">
           <form method="POST" class="login-form">
             {% csrf_token %}
-            <a style="font-size: 16; color: beige"> Change your E-Mail</a>
-            <input style="color: black;" type="text" placeholder="Email" {{ form.email }}>
-            <a style="font-size: 16; color: beige"> Change your Password</a>
-            <input style="color: black;" type="password" placeholder="Password" {{ form.password1 }}>
-            <a style="font-size: 16; color: beige"> Change your Discord Tag</a>
-            <input style="color: black;" type="text" placeholder="Discord Tag" {{ user.userextrainfo.discord_name }}>
-            <a style="font-size: 16; color: beige"> Change your Forum Name</a>
-            <input style="color: black;" type="text" placeholder="Forum Name" {{ user.userextrainfo.forum_name }}>
-            <a style="font-size: 16; color: beige"> Change your In-Game Name</a>
-            <input style="color: black;" type="text" placeholder="In-Game Name" {{ user.userextrainfo.in_game_name }}>
-            <a style="font-size: 16; color: beige"> Change your Bio</a>
-            <input style="color: black;" type="text" placeholder="Bio" {{ user.userextrainfo.bio }}>
-            <a style="font-size: 16; color: beige"> Change your profile picture</a>
+{#            <a style="font-size: 16; color: beige"> Change your E-Mail</a>#}
+{#            <input style="color: black;" type="text" placeholder="Email" {{ form.email }}>#}
+{#            <a style="font-size: 16; color: beige"> Change your Password</a>#}
+{#            <input style="color: black;" type="password" placeholder="Password" {{ form.password1 }}>#}
+            <a style="font-size: 16px; color: beige"> Change your Discord Tag</a>
+            <input style="color: black;" type="text" placeholder="Discord Tag" value="{{ user.userextrainfo.discord_name|default:"" }}" name="discord_name">
+            <a style="font-size: 16px; color: beige"> Change your Forum Name</a>
+            <input style="color: black;" type="text" placeholder="Forum Name" value="{{ user.userextrainfo.forum_name|default:"" }}" name="forum_name">
+            <a style="font-size: 16px; color: beige"> Change your In-Game Name</a>
+            <input style="color: black;" type="text" placeholder="In-Game Name" value="{{ user.userextrainfo.in_game_name|default:"" }}" name="in_game_name">
+            <a style="font-size: 16px; color: beige"> Change your Bio</a>
+            <input style="color: black;" type="text" placeholder="Bio" value="{{ user.userextrainfo.bio|default:"" }}" name="bio">
+            <a style="font-size: 16px; color: beige"> Change your profile picture</a>
 
             <script>
             
@@ -114,7 +114,7 @@ body.classList.toggle('modal-active')
 
         </div>
         <div class="media-body ml-5">
-          <h4 style="font-size: 20;" class="font-weight-bold mb-4"><b>{{ request.user.username }}</b></h4>
+          <h4 style="font-size: 20px;" class="font-weight-bold mb-4"><b>{{ request.user.username }}</b></h4>
             <h4>In Game Name: <a style="color: gray;">{{ request.user.userextrainfo.in_game_name|default:"N/A" }}</a></h4>
             <h4>Discord Username: <a style="color: gray;">{{ request.user.userextrainfo.discord_name|default:"N/A" }}</a></h4>
             <h4>Forum Name: <a style="color: gray;">{{ request.user.userextrainfo.forum_name|default:"N/A" }}</a></h4>
