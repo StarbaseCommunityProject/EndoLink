@@ -40,6 +40,9 @@ class ShipEntry(models.Model):
         if self.price is None and self.price_blueprint is None:
             raise ValidationError('Ship price and blueprint price are both None')
 
+    def __str__(self):
+        return f"{self.ship_name}"
+
 
 class ShipLike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -49,6 +52,9 @@ class ShipLike(models.Model):
     class Meta:
         unique_together = ('user', 'liked_ship')
 
+    def __str__(self):
+        return f"{self.liked_ship.ship_name} - {self.user.username}"
+
 
 class ShipWishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -57,3 +63,6 @@ class ShipWishlist(models.Model):
 
     class Meta:
         unique_together = ('user', 'wishlisted_ship')
+
+    def __str__(self):
+        return f"{self.wishlisted_ship.ship_name} - {self.user.username}"
