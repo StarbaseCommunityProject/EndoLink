@@ -22,6 +22,9 @@ In case you want to run the webserver without Docker (not recommended), you can 
 
 - ShipShop
     
-    The ShipShop app will handle the ship catalogue, ship entry adding / editing / removing, ship searching, etc...
+    The ShipShop app handles the ship catalogue, ship entry adding / editing / removing, ship searching, etc...
 
-.
+
+- Factions
+    
+    The Factions app will handle factions, faction membership, faction advertisements, etc...

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'index',
     'account',
-    'shipshop'
+    'shipshop',
+    'factions'
 ]
 
 MIDDLEWARE = [
