@@ -6,9 +6,8 @@ from django.utils.timezone import now
 # Create your models here.
 
 
-class FactionEmblem(models.Model):
-    # TODO: Add foreign key to faction + cascade?
-    image = models.ImageField(null=False, blank=False, upload_to='faction_emblems')
+# class FactionEmblem(models.Model):
+#     image = models.ImageField(null=False, blank=False, upload_to='faction_emblems')
 
 
 class FactionAdvertisement(models.Model):
@@ -38,7 +37,7 @@ class Faction(models.Model):
     name = models.CharField(max_length=255, default="", null=False, blank=False)
     description = models.TextField(max_length=20000, default="", null=True, blank=True)
     tags = models.JSONField(default=list, null=True, blank=True)
-    emblem = models.OneToOneField(FactionEmblem, null=True, blank=True, on_delete=models.SET_NULL)
+    emblem = models.ImageField(null=True, blank=True, upload_to='faction_emblems')
     advertisement = models.OneToOneField(FactionAdvertisement, null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(default=now, null=False, blank=False)
     updated_at = models.DateTimeField(default=now, null=False, blank=False)
