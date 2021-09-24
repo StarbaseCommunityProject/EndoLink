@@ -7,8 +7,13 @@
         <div class="container py-5">
             <div class=" media col-md-10 col-lg-8 col-xl-7 p-0 my-4 mx-auto">
                 <div class=“container”>
-                    <img style="float: left; padding: 7px;" src="{{ user.userextrainfo.profile_picture.url|default:"/media/default/profile_picture.png" }}" alt
+                    {% if user.userextrainfo.profile_picture %}
+                        <img style="float: left; padding: 7px;" src="{{ user.userextrainfo.profile_picture.url|default:"/media/default/profile_picture.png" }}" alt
                          class="img-holder d-block ui-w-100 rounded-circle">
+                    {% else %}
+                        <img style="float: left; padding: 7px;" src="{{ "/media/default/profile_picture.png" }}" alt
+                         class="img-holder d-block ui-w-100 rounded-circle">
+                    {% endif %}
                     <button class="modal-open btn fa-icon-pencil"><i class="fas fa-pencil-alt"></i></button>
 
 
