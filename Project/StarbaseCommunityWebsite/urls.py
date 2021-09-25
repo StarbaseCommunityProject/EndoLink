@@ -17,6 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from rest_framework import routers
+
+from account.router import router as account_router
+from factions.router import router as factions_router
+from shipshop.router import router as shipshop_router
+
+router = routers.DefaultRouter()
+
+router.registry.extend(account_router.registry)
+router.registry.extend(factions_router.registry)
+router.registry.extend(shipshop_router.registry)
+
 
 urlpatterns = [
     path('', include('index.urls')),
@@ -24,4 +36,6 @@ urlpatterns = [
     path('catalogue/', include('shipshop.urls')),
     path('factions/', include('factions.urls')),
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/', include(router.urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
