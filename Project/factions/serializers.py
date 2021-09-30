@@ -17,7 +17,7 @@ class FactionMemberSerializer(serializers.HyperlinkedModelSerializer):
 class FactionRoleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = FactionRole
-        fields = ['url', 'id', 'name', 'description', 'link', 'is_embed']
+        fields = ['url', 'id', 'name', 'description']
 
 
 class FactionInvitationSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,4 +29,4 @@ class FactionInvitationSerializer(serializers.HyperlinkedModelSerializer):
 class FactionAdvertisementSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = FactionAdvertisement
-        fields = ['url', 'id', 'image', 'description', 'message', ]
+        fields = ['url', 'id', 'image', 'description', 'message']
