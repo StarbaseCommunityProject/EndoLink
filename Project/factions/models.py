@@ -35,6 +35,7 @@ class Faction(models.Model):
     invitations = models.ManyToManyField(User, through='FactionInvitation', through_fields=['faction', 'user'], blank=True, related_name='invited_to_faction')
     roles = models.ManyToManyField(FactionRole, blank=True)
     name = models.CharField(max_length=255, default="", null=False, blank=False)
+    faction_tag = models.CharField(max_length=4, default="", null=False, blank=False)
     description = models.TextField(max_length=20000, default="", null=True, blank=True)
     tags = models.JSONField(default=list, null=True, blank=True)
     emblem = models.ImageField(null=True, blank=True, upload_to='faction_emblems')
