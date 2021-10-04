@@ -9,14 +9,14 @@ services:
 #     IMPORTANT: DO NOT USE THESE SETTINGS IN THE ACTUAL PRODUCTION SERVER.
   website:
     build:
-      context: ./Project
+      context: ./django
       dockerfile: Dockerfile
     command:  sh -c "pip install --no-cache-dir -r requirements.txt &&
               python manage.py makemigrations &&
               python manage.py migrate &&
               python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - './Project:/usr/src/website'
+      - './django:/usr/src/website'
     ports:
       - "8000:8000"
     depends_on:
