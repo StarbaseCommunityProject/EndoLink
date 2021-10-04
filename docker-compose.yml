@@ -7,7 +7,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 #     IMPORTANT: DO NOT USE THESE SETTINGS IN THE ACTUAL PRODUCTION SERVER.
-  website:
+  backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -16,8 +16,19 @@ services:
               python manage.py migrate &&
               python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - './backend:/usr/src/website'
+      - "./backend:/usr/src/backend"
     ports:
       - "8000:8000"
     depends_on:
       - db
+  frontend:
+    image: node
+    working_dir: /usr/src/frontend
+    volumes: 
+      - "./frontend:/usr/src/frontend"
+    ports:
+      - "8080:4200"
+      - "49153:49153"
+    command: sh -c "npm ci &&
+                    node_modules/.bin/ng serve --host 0.0.0.0 --poll"
+
