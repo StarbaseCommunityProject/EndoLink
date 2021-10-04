@@ -3,7 +3,6 @@ from .models import Faction, FactionMember, FactionRole, FactionInvitation, Fact
 from rest_framework import viewsets
 from rest_framework import permissions
 from .permissions import IsLeaderOrReadOnly, InvitePermission
-from StarbaseCommunityWebsite.permissions import ReadOnly, AuthenticatedReadOnly
 
 # API view sets
 
