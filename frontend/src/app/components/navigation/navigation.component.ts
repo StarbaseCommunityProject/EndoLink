@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
+  buttons = [
+    {name: "Stocks", link: "link1"},
+    {name: "Ships", link: "link2"},
+    {name: "Market", link: "link3"},
+    {name: "Factions", link: "link4"}
+  ]
   constructor() { }
 
   ngOnInit(): void {

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LandingComponent } from './pages/landing/landing.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { NavigationButtonComponent } from './components/navigation/navigation-button/navigation-button.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     LandingComponent,
     NavigationComponent,
+    NavigationButtonComponent,
   ],
   imports: [
     BrowserModule,

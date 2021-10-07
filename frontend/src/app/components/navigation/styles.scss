@@ -1,0 +1,37 @@
+@use "/src/styles/colors" as *;
+
+@mixin triangle-left {
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -7px;
+    border-left: 7px solid transparent;
+    border-top: 50px solid $base;
+  }
+}
+@mixin triangle-right {
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -7px;
+    border-right: 7px solid transparent;
+    border-bottom: 50px solid $base;
+  }
+}
+
+.pre-line {
+  position: relative;
+  @include triangle-left;
+  &:before {
+    left: -7px;
+    border-top: 50px solid $base-grey;
+  }
+  @include triangle-right;
+  &:after {
+    right: unset;
+    left: 0;
+    border-bottom: 50px solid $base-grey;
+  }
+}
