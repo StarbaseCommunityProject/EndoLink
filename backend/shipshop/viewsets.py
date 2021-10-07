@@ -13,7 +13,7 @@ class ShipEntryViewSet(viewsets.ModelViewSet):
     """
     queryset = ShipEntry.objects.all().order_by('-created_at')
     serializer_class = ShipEntrySerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsCreatorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = ['price', 'price_blueprint']
     search_fields = ['ship_name', 'creator__username']
     ordering_fields = ['id', 'created_at', 'updated_at']
@@ -26,7 +26,7 @@ class ShipImageViewSet(viewsets.ModelViewSet):
     """
     queryset = ShipImage.objects.all()
     serializer_class = ShipImageSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = []
     search_fields = []
     ordering_fields = ['id']
@@ -39,7 +39,7 @@ class ShipLikeViewSet(viewsets.ModelViewSet):
     """
     queryset = ShipLike.objects.all().order_by('-liked_at')
     serializer_class = ShipLikeSerializer
-    permission_classes = [IsOwnerOrNoAccess]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = ['user__id', 'liked_ship__id']
     search_fields = ['liked_ship__ship_name']
     ordering_fields = ['id', 'liked_at']
@@ -52,7 +52,7 @@ class ShipWishlistViewSet(viewsets.ModelViewSet):
     """
     queryset = ShipWishlist.objects.all().order_by('-wishlisted_at')
     serializer_class = ShipWishlistSerializer
-    permission_classes = [IsOwnerOrNoAccess]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = ['user__id', 'wishlisted_ship__id']
     search_fields = ['wishlisted_ship__ship_name']
     ordering_fields = ['id', 'wishlisted_at']
