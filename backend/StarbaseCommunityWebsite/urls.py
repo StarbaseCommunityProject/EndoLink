@@ -17,7 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+
 from rest_framework import routers
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from account.router import router as account_router
 from factions.router import router as factions_router
@@ -29,12 +32,13 @@ router.registry.extend(account_router.registry)
 router.registry.extend(factions_router.registry)
 router.registry.extend(shipshop_router.registry)
 
-
 urlpatterns = [
-    path('', include('index.urls')),
-    path('account/', include('account.urls')),
-    path('catalogue/', include('shipshop.urls')),
-    path('factions/', include('factions.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/', include('index.urls')),
+    path('api/', include('account.urls')),
+    path('api/', include('shipshop.urls')),
+    path('api/', include('factions.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/', include(router.urls))
