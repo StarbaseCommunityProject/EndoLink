@@ -1,0 +1,39 @@
+$base-dark: #0E0C0D;
+$base: #211F20;
+$base-grey: #ACAFAD;
+$text: #F0F0F0;
+$accent: #005E69;
+
+$base-palette: (
+    50 : #ACAFAD,
+    100 : #ACAFAD,
+    200 : #ACAFAD,
+    300 : #ACAFAD,
+    400 : #211F20,
+    500 : #211F20,
+    600 : #211F20,
+    700 : #0E0C0D,
+    800 : #0E0C0D,
+    900 : #0E0C0D,
+    A100 : #005E69,
+    A200 : #005E69,
+    A400 : #005E69,
+    A700 : #005E69,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
