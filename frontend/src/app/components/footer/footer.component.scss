@@ -1,0 +1,17 @@
+@use "../../../styles/colors.scss" as *;
+.footer{
+  display: flex;
+  justify-content: center;
+  background-color: $base;
+  min-height: 50px;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.footer-item{
+  color: $text;
+  margin-right: 10px;
+
+}
