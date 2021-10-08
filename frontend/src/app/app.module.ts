@@ -8,6 +8,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { NavigationButtonComponent } from './components/navigation/navigation-button/navigation-button.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LandingComponent,
     NavigationComponent,
     NavigationButtonComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
