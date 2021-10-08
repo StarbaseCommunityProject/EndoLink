@@ -13,7 +13,7 @@ class FactionViewSet(viewsets.ModelViewSet):
     """
     queryset = Faction.objects.all().order_by('-created_at')
     serializer_class = FactionSerializer
-    permission_classes = [IsLeaderOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = []
     search_fields = ['leader__username', 'name']
     ordering_fields = ['id', 'created_at', 'updated_at']
@@ -26,7 +26,7 @@ class FactionMemberViewSet(viewsets.ModelViewSet):
     """
     queryset = FactionMember.objects.all().order_by('-joined_at')
     serializer_class = FactionMemberSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = []
     search_fields = ['user__username', 'faction__name']
     ordering_fields = ['id', 'joined_at']
@@ -39,7 +39,7 @@ class FactionRoleViewSet(viewsets.ModelViewSet):
     """
     queryset = FactionRole.objects.all().order_by('name')
     serializer_class = FactionRoleSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = []
     search_fields = ['name']
     ordering_fields = ['id']
@@ -52,7 +52,7 @@ class FactionInvitationViewSet(viewsets.ModelViewSet):
     """
     queryset = FactionInvitation.objects.all().order_by('-invited_at')
     serializer_class = FactionInvitationSerializer
-    permission_classes = [InvitePermission]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = ['invited_by__id']
     search_fields = ['user__username', 'faction__name']
     ordering_fields = ['id', 'invited_at']
@@ -65,7 +65,7 @@ class FactionAdvertisementViewSet(viewsets.ModelViewSet):
     """
     queryset = FactionAdvertisement.objects.all()
     serializer_class = FactionAdvertisementSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = []
     search_fields = []
     ordering_fields = ['id']
