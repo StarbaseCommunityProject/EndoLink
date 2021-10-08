@@ -11,6 +11,10 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SignUpDialogComponent } from './components/dialogs/sign-up-dialog/sign-up-dialog.component';
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { Overlay } from "@angular/cdk/overlay";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -26,7 +30,11 @@ import { Overlay } from "@angular/cdk/overlay";
     AppRoutingModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

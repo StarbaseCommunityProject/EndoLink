@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
   selector: 'app-sign-up-dialog',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpDialogComponent implements OnInit {
 
-  constructor() { }
+  signUpForm: FormGroup;
+
+  constructor( private formBuilder: FormBuilder ) {
+    // TODO add validators
+    this.signUpForm = this.formBuilder.group( {
+      username: [''],
+      email: [''],
+      password: [''],
+      passwordRepeat: [''],
+    } )
+  }
 
   ngOnInit(): void {
+  }
+
+  submitSignUp(): void {
+    console.log(this.signUpForm.value);
   }
 
 }
