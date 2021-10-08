@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  footerItems = [{name: "About us", link: "/aboutus"}, {name: "Cookie Policy", link: "/cookies"}, {name: "Privacy Policy", link: "/privacy"}]
+  footerItems = [{name: "About us", link: "/about"}, {name: "Cookie Policy", link: "/cookies"}, {name: "Privacy Policy", link: "/privacy"}]
 
   constructor() { }
 
