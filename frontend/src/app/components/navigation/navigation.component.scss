@@ -29,11 +29,18 @@
   }
   .filler {
     position: relative;
+    display: flex;
+    justify-content: right;
+    align-items: center;
     flex-grow: 1;
     height: 50px;
     margin-left: 7px;
     padding-left: 7px;
+    padding-right: 32px;
     background-color: $base;
     @include triangle-left;
+    a {
+      color: $text;
+    }
   }
 }

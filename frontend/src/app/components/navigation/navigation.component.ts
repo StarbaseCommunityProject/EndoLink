@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
+import { SignUpDialogComponent } from "../dialogs/sign-up-dialog/sign-up-dialog.component";
 
 @Component({
   selector: 'app-navigation',
@@ -13,9 +15,16 @@ export class NavigationComponent implements OnInit {
     {name: "Market", link: "link3"},
     {name: "Factions", link: "link4"}
   ]
-  constructor() { }
+  constructor( public dialog: MatDialog ) { }
 
   ngOnInit(): void {
+  }
+
+  openSignUpDialog(): void {
+    this.dialog.open(SignUpDialogComponent, {
+      width: '450px',
+      data: {}
+    });
   }
 
 }

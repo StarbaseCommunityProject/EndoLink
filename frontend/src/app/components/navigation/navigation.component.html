@@ -12,5 +12,10 @@
     </ng-container>
   </div>
   <div class="pre-line"></div>
-  <div class="filler"></div>
+  <div class="filler">
+    <!-- TODO replace `true` with logged-in state -->
+    <ng-container *ngIf="true">
+      <a (click)="openSignUpDialog()">Sign Up</a>
+    </ng-container>
+  </div>
 </div>
