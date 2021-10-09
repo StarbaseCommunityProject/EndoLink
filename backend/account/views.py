@@ -12,6 +12,7 @@
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
@@ -46,8 +47,8 @@ class RegisterView(APIView):
         if serialiser.is_valid():
             new_user = serialiser.save()
             refresh_token = RefreshToken.for_user(new_user)
-            response['jwt'] = {'refresh': refresh_token, 'access': refresh_token.access_token}
-            response['user'] = UserSerializer(new_user).data
+            response['jwt'] = {'refresh': str(refresh_token), 'access': str(refresh_token.access_token)}
+            response['user'] = UserSerializer(new_user, context={'request': request}).data
         else:
             response = serialiser.errors
 
