@@ -24,6 +24,9 @@ from account.router import router as account_router
 from factions.router import router as factions_router
 from shipshop.router import router as shipshop_router
 
+from .urls_yasg import urlpatterns as yasg_urlpatterns
+
+
 router = routers.DefaultRouter()
 
 router.registry.extend(account_router.registry)
@@ -31,6 +34,7 @@ router.registry.extend(factions_router.registry)
 router.registry.extend(shipshop_router.registry)
 
 urlpatterns = [
+    path('api/', include(yasg_urlpatterns)),
     path('api/', include('index.urls')),
     path('api/', include('account.urls')),
     path('api/', include('shipshop.urls')),
