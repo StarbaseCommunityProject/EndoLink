@@ -21,12 +21,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9sp3328n!ha1ico2w@p1e7e5h@e7(p&_rk$2v3_4e=n=t0qwqk'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -115,7 +109,6 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,                      # As per the docs: "Warning: Updating last_login will dramatically increase the number of database transactions. People abusing the views could slow the server and this could be a security vulnerability. If you really want this, throttle the endpoint with DRF at the very least."
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -141,6 +134,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:8000",
+    "http://localhost:4200",
 ]
 
 # Database
