@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { AuthenticationService } from '../../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-sign-up-dialog',
@@ -10,7 +11,8 @@ export class SignUpDialogComponent implements OnInit {
 
   signUpForm: FormGroup;
 
-  constructor( private formBuilder: FormBuilder ) {
+  constructor( private formBuilder: FormBuilder,
+               private authenticationService: AuthenticationService ) {
     // TODO add validators
     this.signUpForm = this.formBuilder.group( {
       username: [''],
@@ -24,7 +26,14 @@ export class SignUpDialogComponent implements OnInit {
   }
 
   submitSignUp(): void {
-    console.log(this.signUpForm.value);
+    const { username, email, password } = this.signUpForm.value;
+    this.authenticationService.signUp( username, email, password )
+      .then( response => {
+        console.log( response );
+      } )
+      .catch( error => {
+        console.warn( error );
+      } );
   }
 
 }
