@@ -1,45 +1,55 @@
-# from django.shortcuts import render, redirect
-# from django.http import HttpResponse, JsonResponse
-# import json
-# # from .forms import SignUpForm, AccountEditForm
-# from .models import UserExtraInfo
-# from django.contrib.auth import authenticate, login
-# from django.contrib.auth.decorators import login_required
-# from django.core.exceptions import ObjectDoesNotExist
-# from django.http import JsonResponse
-# from django.views.generic import View
-
-from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
+from rest_framework import status
+from drf_yasg.utils import swagger_auto_schema
 from .serializers import UserSerializer, RegisterSerializer
 
 
 # Create your views here.
 
 
-class CurrentUserView(APIView):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAuthenticated,)
+class CurrentUserView(GenericAPIView):
+    """
+    API endpoint that returns the currently authenticated user's information.
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+    filter_backends = []
+    pagination_class = None
 
+    @swagger_auto_schema(responses={200: UserSerializer(many=False)}, operation_id="get_current_user", tags=["users"])
     def get(self, request):
         try:
             user = request.user
         except Exception as e:
-            return Response(None)
-        return Response(UserSerializer(user, context={'request': request}).data)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(UserSerializer(user, context={'request': request}).data, status=status.HTTP_200_OK)
+
+    def options(self, request, *args, **kwargs):
+        meta = self.metadata_class()
+        data = meta.determine_metadata(request, self)
+        return Response(data=data, status=status.HTTP_200_OK)
 
 
-class RegisterView(APIView):
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (AllowAny,)
+class RegisterView(GenericAPIView):
+    """
+    API endpoint to register a user in the system.
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'register'
+    serializer_class = RegisterSerializer
+    filter_backends = []
+    pagination_class = None
 
+    @swagger_auto_schema(responses={200: TokenObtainPairSerializer(many=False)}, operation_id="register_user", tags=["users"])
     def post(self, request):
         serialiser = RegisterSerializer(data=request.data)
         response = dict()
@@ -49,42 +59,14 @@ class RegisterView(APIView):
             refresh_token = RefreshToken.for_user(new_user)
             response['jwt'] = {'refresh': str(refresh_token), 'access': str(refresh_token.access_token)}
             response['user'] = UserSerializer(new_user, context={'request': request}).data
+            response_status = status.HTTP_201_CREATED
         else:
             response = serialiser.errors
+            response_status = status.HTTP_400_BAD_REQUEST
 
-        return Response(response)
+        return Response(response, status=response_status)
 
-
-# class SignupView(View):
-#     def post(self, request):
-#         form = SignUpForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password1')
-#             user = authenticate(username=username, password=password)
-#             login(request, user)
-#             return redirect('index')
-#         return HttpResponse(render(request, 'account/signup.html', {'form': form}))
-
-
-# @login_required
-# def account_page(request):
-#     try:
-#         user_extra_info = request.user.userextrainfo
-#     except ObjectDoesNotExist:
-#         user_extra_info = UserExtraInfo(user=request.user)
-#         user_extra_info.save()
-#
-#     form = AccountEditForm(request.POST or None, instance=user_extra_info)
-#
-#     if form.is_valid() and request.POST:
-#         extra_user_info = form.save(commit=False)
-#         extra_user_info.user = request.user
-#         profile_picture = request.FILES.get('profile_picture')
-#         if profile_picture:
-#             extra_user_info.profile_picture = profile_picture
-#         extra_user_info.save()
-#         return redirect('/account')
-#
-#     return HttpResponse(render(request, 'account/account_page.html', {'form': form}))
+    def options(self, request, *args, **kwargs):
+        meta = self.metadata_class()
+        data = meta.determine_metadata(request, self)
+        return Response(data=data, status=status.HTTP_200_OK)
