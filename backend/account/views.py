@@ -1,5 +1,6 @@
 from rest_framework.generics import GenericAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -7,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg.openapi import Parameter
 from .serializers import UserSerializer, RegisterSerializer
 
 
@@ -62,6 +64,70 @@ class RegisterView(GenericAPIView):
             response_status = status.HTTP_201_CREATED
         else:
             response = serialiser.errors
+            response_status = status.HTTP_400_BAD_REQUEST
+
+        return Response(response, status=response_status)
+
+    def options(self, request, *args, **kwargs):
+        meta = self.metadata_class()
+        data = meta.determine_metadata(request, self)
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class LogOutView(GenericAPIView):
+    """
+    API endpoint to logout.
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'logout'
+    filter_backends = []
+    pagination_class = None
+
+    @swagger_auto_schema(manual_parameters=[Parameter(name="JWT token", in_="Authorization", type='token', required=True, description="Valid JWT access token"), Parameter(name="JWT refresh token", in_="refresh_token", type='token', required=True, description="Valid JWT refresh token")], operation_id="logout_user", tags=["users"])
+    def post(self, request):
+        response = dict()
+
+        if request.user:
+            refresh_token = RefreshToken(request.data.get("refresh_token"))
+            refresh_token.blacklist()
+
+            response_status = status.HTTP_200_OK
+        else:
+            response["error"] = "Not logged in."
+            response_status = status.HTTP_400_BAD_REQUEST
+
+        return Response(response, status=response_status)
+
+    def options(self, request, *args, **kwargs):
+        meta = self.metadata_class()
+        data = meta.determine_metadata(request, self)
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class LogOutAllView(GenericAPIView):
+    """
+    API endpoint to logout on all devices.
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'logout'
+    filter_backends = []
+    pagination_class = None
+
+    @swagger_auto_schema(manual_parameters=[Parameter(name="JWT token", in_="Authorization", type='token', required=True, description="Valid JWT access token")], operation_id="logout_user", tags=["users"])
+    def post(self, request):
+        response = dict()
+
+        if request.user:
+            for token in OutstandingToken.objects.filter(user_id=request.user.id):
+                BlacklistedToken.objects.get_or_create(token=token)
+
+            response_status = status.HTTP_200_OK
+        else:
+            response["error"] = "Not logged in."
             response_status = status.HTTP_400_BAD_REQUEST
 
         return Response(response, status=response_status)
