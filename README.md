@@ -3,28 +3,22 @@ An open-source Starbase community website.
 
 ## How to run:
 
+### Docker:
+
 Docker Compose should take care of everything and automatically build the containers & run the webserver.
 
-In case you want to run the webserver without Docker (not recommended), you can simply run `python manage.py runserver` in the `Project` directory. Be sure to install the necessary requirements from `Project/requirements.txt` first, though.
+Run `docker-compose up` in the base directory (the folder which has the `docker-compose.yml` file).
 
+### Not Docker:
 
-## Current Django Apps:
+In case you want to run the backend without Docker (not recommended), you can simply run `python manage.py runserver` in the `backend` directory. Be sure to install the necessary requirements from `backend/requirements.txt` first, though.
 
-- Index
+For the frontend, you should be able to use `ng serve` in the `frontend` directory, after the necessary steps to install Angular.
 
-    The Index app is currently just the index page. See the `index/views.py` file for views, and `index/urls.py` for URLs. `index/templates/index` holds HTML / CSS / JS.
+## Contact:
 
+We primarily use [Discord](https://discord.gg/qDPF2z6Krh) for communication.
 
-- Account
-    
-    The Account app currently handles authentication, together with the Django auth app.
-  
+- Backend: `Max#0007`
 
-- ShipShop
-    
-    The ShipShop app handles the ship catalogue, ship entry adding / editing / removing, ship searching, etc...
-
-
-- Factions
-    
-    The Factions app will handle factions, faction membership, faction advertisements, etc...
+- Frontend: `Pasu#3669`

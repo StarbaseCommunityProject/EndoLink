@@ -137,6 +137,20 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
 ]
 
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'JWT': {
+            'type': 'apiKey',
+            'description': 'JWT authentication',
+            'name': "Authorization",
+            'in': 'header',
+            'flow': 'accessCode',
+            'tokenUrl': '/api/token/'
+        },
+    }
+}
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -154,15 +168,6 @@ DATABASES = {
         }
     }
 }
-
-# USED IN CASE OF NON-DOCKER TESTING
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3'
-#     }
-# }
 
 LOGIN_REDIRECT_URL = '/api'
 LOGOUT_REDIRECT_URL = '/api'
