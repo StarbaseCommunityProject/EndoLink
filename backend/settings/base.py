@@ -21,12 +21,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9sp3328n!ha1ico2w@p1e7e5h@e7(p&_rk$2v3_4e=n=t0qwqk'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -98,7 +92,8 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '20/minute',
         'user': '30/minute',
-        'register': '1000000/day'
+        'register': '1/day',
+        'faction_registration': '2/day'
     },
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', 'rest_framework.filters.SearchFilter', 'rest_framework.filters.OrderingFilter'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -115,7 +110,6 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,                      # As per the docs: "Warning: Updating last_login will dramatically increase the number of database transactions. People abusing the views could slow the server and this could be a security vulnerability. If you really want this, throttle the endpoint with DRF at the very least."
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -144,6 +138,20 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
 ]
 
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'JWT': {
+            'type': 'apiKey',
+            'description': 'JWT authentication',
+            'name': "Authorization",
+            'in': 'header',
+            'flow': 'accessCode',
+            'tokenUrl': '/api/token/'
+        },
+    }
+}
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -161,15 +169,6 @@ DATABASES = {
         }
     }
 }
-
-# USED IN CASE OF NON-DOCKER TESTING
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3'
-#     }
-# }
 
 LOGIN_REDIRECT_URL = '/api'
 LOGOUT_REDIRECT_URL = '/api'

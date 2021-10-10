@@ -1,8 +1,7 @@
-from django.urls import path, include
+from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    # path('', views.factions_overview, name='factions_overview'),
-    # path('create', views.faction_creation, name='faction_creation')
+    path('create_faction', views.FactionCreationView.as_view(), name='create_faction')
 ]

@@ -11,6 +11,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.development
     command:  sh -c "pip install --no-cache-dir -r requirements.txt &&
               python manage.py makemigrations &&
               python manage.py migrate &&
