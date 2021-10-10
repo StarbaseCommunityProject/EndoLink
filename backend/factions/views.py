@@ -23,8 +23,8 @@ class FactionCreationView(GenericAPIView):
     """
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'faction'
+    # throttle_classes = [ScopedRateThrottle]
+    # throttle_scope = 'faction'
     serializer_class = FactionCreationSerializer
     filter_backends = []
     pagination_class = None
@@ -36,10 +36,17 @@ class FactionCreationView(GenericAPIView):
 
         if serializer.is_valid():
             if Faction.objects.filter(leader=request.user).count() == 0 and FactionMember.objects.filter(user=request.user).count() == 0:
-                new_faction = serializer.save(leader=request.user)
-                response['faction'] = new_faction
+                serializer.validated_data['leader'] = request.user
+                new_faction = serializer.save()
+
+                if request.FILES.get('emblem'):
+                    new_faction.emblem = request.FILES.get('emblem')
+                    new_faction.save()
+
+                response['faction'] = FactionSerializer(new_faction, context={'request': request}).data
                 response_status = status.HTTP_201_CREATED
             else:
+                response["error"] = "This user is already in a faction."
                 response_status = status.HTTP_400_BAD_REQUEST
         else:
             response = serializer.errors
