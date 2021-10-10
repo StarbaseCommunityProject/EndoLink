@@ -77,7 +77,7 @@ export class AuthenticationService {
           .then( () => {
             console.warn( 'saved token information' );
           } )
-        this.getCurrentUser();
+        this.getCurrentUser().then( user => this.user.next( user ) )
         return httpResponse as LogInResponse;
       } )
       .catch( ( httpResponse: HttpErrorResponse ) => {
@@ -86,7 +86,7 @@ export class AuthenticationService {
   }
 
   getCurrentUser()
-    : Promise<User | HttpErrorResponse>
+    : Promise<User>
   {
     return this.authenticatedHttpClient.get( 'api/current_user' ).then( response => {
       console.log( response );

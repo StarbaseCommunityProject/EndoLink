@@ -14,8 +14,16 @@
   <div class="pre-line"></div>
   <div class="filler">
     <!-- TODO replace `true` with logged-in state -->
-    <ng-container *ngIf="true">
-      <a (click)="openSignUpDialog()">Sign Up</a>
+    <ng-container *ngIf="!user; else profile">
+      <button mat-flat-button
+              (click)="openSignUpDialog()">Sign Up</button>
     </ng-container>
+    <ng-template #profile>
+      <div class="profile">
+        <div class="pre-line"></div>
+        <div class="avatar"></div>
+        <p class="username">{{ user?.username }}</p>
+      </div>
+    </ng-template>
   </div>
 </div>

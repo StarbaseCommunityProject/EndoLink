@@ -42,5 +42,14 @@
     a {
       color: $text;
     }
+    .profile {
+      height: 50px;
+      cursor: pointer;
+      .username {
+        margin: 0 0 0 32px;
+        line-height: 50px;
+        color: $text;
+      }
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { openDB, OpenDBCallbacks } from 'idb';
+import { IDBPDatabase, openDB, OpenDBCallbacks } from 'idb';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class IndexedDbService {
   constructor() {
   }
 
-  init(): void {
+  async init(): Promise<IDBPDatabase> {
     if ( !( 'indexedDB' in window ) ) {
       alert( 'IndexedDB is not supported in your browser!\n' +
         'For user authentication to work it is recommended to use a Chromium-based browser or the latest version of Firefox.\n' +
@@ -24,10 +24,29 @@ export class IndexedDbService {
         db.createObjectStore( 'keyval' );
       }
     } );
+
+    return this.indexedDb;
   }
 
   async get( key: string ): Promise<any> {
     return ( await this.indexedDb ).get( 'keyval', key );
+  }
+
+  async getMultiple( keys: string[] ): Promise<any> {
+    return new Promise<any>( async resolve => {
+      const keyValuePromises = keys.map( async key => {
+        return await ( await this.indexedDb ).get( 'keyval', key );
+      } );
+
+      const keyValues: string[] = await Promise.all( keyValuePromises );
+
+      const returnKeyValues: { [key: string]: any } = {};
+      keys.forEach( ( key, index ) => {
+        returnKeyValues[ key ] = keyValues[ index ];
+      } );
+
+      resolve( returnKeyValues );
+    } );
   }
 
   async set( key: string, val: any ): Promise<any> {
