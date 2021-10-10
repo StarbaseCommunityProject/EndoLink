@@ -35,7 +35,7 @@ export class AuthenticationService {
                 password: string )
     : Promise<SignUpResponse | SignUpErrorResponse>
   {
-    return this.httpClient.post( `${ this.apiUrl }/api/register`, { username, email, password } )
+    return this.httpClient.post( `${ this.apiUrl }/api/register/`, { username, email, password } )
       .toPromise()
       .then( httpResponse => {
         const { user, jwt } = httpResponse as SignUpResponse;
@@ -62,7 +62,7 @@ export class AuthenticationService {
                password: string )
     : Promise<LogInResponse | LogInErrorResponse>
   {
-    return this.httpClient.post( `${ this.apiUrl }/api/token`, { username, password } )
+    return this.httpClient.post( `${ this.apiUrl }/api/token/`, { username, password } )
       .toPromise()
       .then( httpResponse => {
         const { access, refresh } = httpResponse as LogInResponse;
@@ -88,7 +88,7 @@ export class AuthenticationService {
   getCurrentUser()
     : Promise<User>
   {
-    return this.authenticatedHttpClient.get( 'api/current_user' ).then( response => {
+    return this.authenticatedHttpClient.get( 'api/current_user/' ).then( response => {
       return response as User;
     } );
   }
