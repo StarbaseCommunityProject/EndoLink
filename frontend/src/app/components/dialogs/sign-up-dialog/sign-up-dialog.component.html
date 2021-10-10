@@ -1,31 +1,54 @@
-<div [formGroup]="signUpForm">
-  <mat-form-field appearance="legacy">
-    <mat-label>Username</mat-label>
-    <input formControlName="username"
-           matInput
-           placeholder="Placeholder">
-  </mat-form-field>
-  <mat-form-field appearance="legacy">
-    <mat-label>Email</mat-label>
-    <input formControlName="email"
-           matInput
-           placeholder="Placeholder">
-  </mat-form-field>
-  <mat-form-field appearance="legacy">
-    <mat-label>Password</mat-label>
-    <input formControlName="password"
-           matInput placeholder="Placeholder"
-           type="password">
-  </mat-form-field>
-  <mat-form-field appearance="legacy">
-    <mat-label>Repeat</mat-label>
-    <input formControlName="passwordRepeat"
-           matInput
-           placeholder="Placeholder"
-           type="password"
-           [errorStateMatcher]="passwordErrorStateMatcher">
-  </mat-form-field>
-  <button mat-raised-button
-          [disabled]="signUpForm.invalid"
-          (click)="submitSignUp()">Sign Up</button>
-</div>
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Sign Up">
+    <div [formGroup]="signUpForm">
+      <mat-form-field appearance="legacy">
+        <mat-label>Username</mat-label>
+        <input formControlName="username"
+               matInput
+               placeholder="Placeholder">
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Email</mat-label>
+        <input formControlName="email"
+               matInput
+               placeholder="Placeholder">
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Password</mat-label>
+        <input formControlName="password"
+               matInput placeholder="Placeholder"
+               type="password">
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Repeat</mat-label>
+        <input formControlName="passwordRepeat"
+               matInput
+               placeholder="Placeholder"
+               type="password"
+               [errorStateMatcher]="passwordErrorStateMatcher">
+      </mat-form-field>
+      <button mat-raised-button
+              [disabled]="signUpForm.invalid"
+              (click)="submitSignUp()">Sign Up</button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Log In">
+    <div [formGroup]="logInForm">
+      <mat-form-field appearance="legacy">
+        <mat-label>Username</mat-label>
+        <input formControlName="username"
+               matInput
+               placeholder="Placeholder">
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Password</mat-label>
+        <input formControlName="password"
+               matInput placeholder="Placeholder"
+               type="password">
+      </mat-form-field>
+      <button mat-raised-button
+              [disabled]="logInForm.invalid"
+              (click)="submitLogIn()">Log In</button>
+    </div>
+  </mat-tab>
+</mat-tab-group>

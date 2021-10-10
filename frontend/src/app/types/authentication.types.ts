@@ -17,3 +17,13 @@ export interface SignUpErrorResponse {
   status: number;
   message: string;
 }
+
+export interface LogInResponse {
+  access: string;
+  refresh: string;
+}
+
+export interface LogInErrorResponse {
+  status: number;
+  message: string;
+}

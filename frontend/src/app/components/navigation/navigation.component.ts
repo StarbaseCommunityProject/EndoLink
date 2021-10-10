@@ -21,10 +21,10 @@ export class NavigationComponent implements OnInit {
   }
 
   openSignUpDialog(): void {
-    this.dialog.open(SignUpDialogComponent, {
+    this.dialog.open( SignUpDialogComponent, {
       width: '450px',
       data: {}
-    });
+    } );
   }
 
 }

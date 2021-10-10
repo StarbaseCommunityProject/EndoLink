@@ -27,12 +27,20 @@ export class IndexedDbService {
   }
 
   async get( key: string ): Promise<any> {
-    return ( await this.indexedDb  ).get( 'keyval', key );
+    return ( await this.indexedDb ).get( 'keyval', key );
   }
 
   async set( key: string, val: any ): Promise<any> {
     return ( await this.indexedDb ).put( 'keyval', val, key );
   }
+
+  async setMultiple( pairs: { key: string, val: any }[] ): Promise<any> {
+    pairs.map( async pair => {
+      return ( await this.indexedDb ).put( 'keyval', pair.val, pair.key )
+    } );
+    return Promise.all( pairs );
+  }
+
 
   async delete( key: string ): Promise<any> {
     return ( await this.indexedDb ).delete( 'keyval', key );
