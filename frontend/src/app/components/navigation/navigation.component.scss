@@ -1,12 +1,55 @@
 @use "/src/styles/colors" as *;
+@use "shared" as *;
 
 .nav {
+  display: flex;
   width: 100%;
   height: 50px;
-  .logo {
-    height: 32px;
-    width: auto;
-    padding: 9px 16px 9px 16px;
+  .logo-container {
+    position: relative;
+    height: 50px;
+    padding: 9px 32px 0 24px;
     background-color: $base;
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -7px;
+      border-right: 7px solid transparent;
+      border-bottom: 50px solid $base;
+    }
+    img {
+      height: 32px;
+      width: auto;
+    }
+  }
+  .nav-buttons {
+    display: flex;
+    padding-left: 7px;
+  }
+  .filler {
+    position: relative;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    flex-grow: 1;
+    height: 50px;
+    margin-left: 7px;
+    padding-left: 7px;
+    padding-right: 32px;
+    background-color: $base;
+    @include triangle-left;
+    a {
+      color: $text;
+    }
+    .profile {
+      height: 50px;
+      cursor: pointer;
+      .username {
+        margin: 0 0 0 32px;
+        line-height: 50px;
+        color: $text;
+      }
+    }
   }
 }

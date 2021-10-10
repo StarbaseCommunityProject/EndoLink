@@ -18,3 +18,4 @@ urlpatterns = [
     # path('', views.account_page, name='account'),
     # path('account/edit', views.account_edit_page, name='edit')
 ]
+]

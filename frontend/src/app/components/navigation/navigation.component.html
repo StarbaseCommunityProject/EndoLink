@@ -1,3 +1,29 @@
 <div class="nav">
-  <img src="assets/svg/logo.svg" class="logo" alt="logo" />
+  <div class="logo-container">
+    <img src="assets/svg/logo.svg"
+         class="logo"
+         alt="logo" />
+  </div>
+  <div class="nav-buttons">
+    <ng-container>
+      <app-navigation-button *ngFor="let button of buttons"
+                             [name]="button.name"
+                             [link]="button.link"></app-navigation-button>
+    </ng-container>
+  </div>
+  <div class="pre-line"></div>
+  <div class="filler">
+    <!-- TODO replace `true` with logged-in state -->
+    <ng-container *ngIf="!user; else profile">
+      <button mat-flat-button
+              (click)="openSignUpDialog()">Sign Up</button>
+    </ng-container>
+    <ng-template #profile>
+      <div class="profile">
+        <div class="pre-line"></div>
+        <div class="avatar"></div>
+        <p class="username">{{ user?.username }}</p>
+      </div>
+    </ng-template>
+  </div>
 </div>
