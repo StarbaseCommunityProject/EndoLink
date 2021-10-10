@@ -9,7 +9,7 @@ from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg.openapi import Parameter
-from .serializers import UserSerializer, RegisterSerializer
+from .serializers import UserSerializer, RegisterSerializer, LogOutSerializer
 
 
 # Create your views here.
@@ -81,6 +81,7 @@ class LogOutView(GenericAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [ScopedRateThrottle]
+    serializer_class = LogOutSerializer
     throttle_scope = 'logout'
     filter_backends = []
     pagination_class = None
@@ -90,10 +91,10 @@ class LogOutView(GenericAPIView):
         response = dict()
 
         if request.user:
-            refresh_token = RefreshToken(request.data.get("refresh_token"))
-            refresh_token.blacklist()
+            RefreshToken(request.data.get("refresh_token")).blacklist()
 
-            response_status = status.HTTP_200_OK
+            response["result"] = "User logged out."
+            response_status = status.HTTP_204_NO_CONTENT
         else:
             response["error"] = "Not logged in."
             response_status = status.HTTP_400_BAD_REQUEST
@@ -109,15 +110,18 @@ class LogOutView(GenericAPIView):
 class LogOutAllView(GenericAPIView):
     """
     API endpoint to logout on all devices.
+
+    Known issue: Refreshed tokens aren't assigned a User, and hence won't be logged out through this.
     """
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [ScopedRateThrottle]
+    serializer_class = LogOutSerializer
     throttle_scope = 'logout'
     filter_backends = []
     pagination_class = None
 
-    @swagger_auto_schema(manual_parameters=[Parameter(name="JWT token", in_="Authorization", type='token', required=True, description="Valid JWT access token")], operation_id="logout_user", tags=["users"])
+    @swagger_auto_schema(manual_parameters=[Parameter(name="JWT token", in_="Authorization", type='string', required=True, description="Valid JWT access token")], operation_id="logout_user_all", tags=["users"])
     def post(self, request):
         response = dict()
 
@@ -125,7 +129,8 @@ class LogOutAllView(GenericAPIView):
             for token in OutstandingToken.objects.filter(user_id=request.user.id):
                 BlacklistedToken.objects.get_or_create(token=token)
 
-            response_status = status.HTTP_200_OK
+            response["result"] = "User logged out."
+            response_status = status.HTTP_204_NO_CONTENT
         else:
             response["error"] = "Not logged in."
             response_status = status.HTTP_400_BAD_REQUEST

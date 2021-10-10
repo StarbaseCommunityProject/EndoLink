@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import RefreshToken
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,3 +27,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         new_user.save()
 
         return new_user
+
+
+class LogOutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RefreshToken
+        fields = ['refresh']
