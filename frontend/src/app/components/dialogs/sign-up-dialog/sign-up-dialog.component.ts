@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication/authentication.service';
+import { PasswordErrorStateMatcher, passwordValidator } from '../../validators/authentication.validators';
 
 @Component({
   selector: 'app-sign-up-dialog',
@@ -10,16 +11,16 @@ import { AuthenticationService } from '../../../services/authentication/authenti
 export class SignUpDialogComponent implements OnInit {
 
   signUpForm: FormGroup;
+  passwordErrorStateMatcher = new PasswordErrorStateMatcher()
 
   constructor( private formBuilder: FormBuilder,
                private authenticationService: AuthenticationService ) {
-    // TODO add validators
     this.signUpForm = this.formBuilder.group( {
-      username: [''],
-      email: [''],
-      password: [''],
-      passwordRepeat: [''],
-    } )
+      username: new FormControl(null, [ Validators.required, Validators.nullValidator ] ),
+      email: new FormControl( null, [ Validators.required, Validators.email ] ),
+      password: new FormControl( null, [ Validators.required ] ),
+      passwordRepeat: new FormControl( null ),
+    }, { validators: passwordValidator } )
   }
 
   ngOnInit(): void {
