@@ -38,7 +38,6 @@ export class SignUpDialogComponent implements OnInit {
     const { username, email, password } = this.signUpForm.value;
     this.authenticationService.signUp( username, email, password )
       .then( response => {
-        console.log( response );
         this.dialogRef.close();
       } )
       .catch( error => {
@@ -50,7 +49,6 @@ export class SignUpDialogComponent implements OnInit {
     const { username, password } = this.logInForm.value;
     this.authenticationService.logIn( username, password )
       .then( response => {
-        console.log( response );
         this.dialogRef.close();
       } )
       .catch( error => {

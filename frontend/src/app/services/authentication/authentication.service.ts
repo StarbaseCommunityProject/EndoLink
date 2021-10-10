@@ -89,7 +89,6 @@ export class AuthenticationService {
     : Promise<User>
   {
     return this.authenticatedHttpClient.get( 'api/current_user' ).then( response => {
-      console.log( response );
       return response as User;
     } );
   }

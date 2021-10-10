@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
                private authenticationService: AuthenticationService ) {
     this.indexedDbService.init().then( () => {
       this.indexedDbService.getMultiple( [ 'accessToken', 'refreshToken' ] ).then( tokens => {
-        console.log( { tokens } );
         if ( 'accessToken' in tokens && tokens.accessToken ) {
           this.authenticationService.getCurrentUser().then( user => {
             this.authenticationService.user.next( user );
