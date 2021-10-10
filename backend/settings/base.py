@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'corsheaders',
     'drf_yasg',
-    'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'rest_framework',
     'django_filters',
     'index',
@@ -93,7 +94,8 @@ REST_FRAMEWORK = {
         'anon': '20/minute',
         'user': '30/minute',
         'register': '1/day',
-        'faction_registration': '2/day'
+        'faction_registration': '2/day',
+        'logout': '3/minute'
     },
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', 'rest_framework.filters.SearchFilter', 'rest_framework.filters.OrderingFilter'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -106,7 +108,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,                  # May want to reconsider this if database performance suffers? Is safer though.
-    'BLACKLIST_AFTER_ROTATION': False,
+    'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': True,                      # As per the docs: "Warning: Updating last_login will dramatically increase the number of database transactions. People abusing the views could slow the server and this could be a security vulnerability. If you really want this, throttle the endpoint with DRF at the very least."
 
     'ALGORITHM': 'HS256',
