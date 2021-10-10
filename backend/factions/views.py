@@ -23,8 +23,8 @@ class FactionCreationView(GenericAPIView):
     """
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    # throttle_classes = [ScopedRateThrottle]
-    # throttle_scope = 'faction'
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'faction_registration'
     serializer_class = FactionCreationSerializer
     filter_backends = []
     pagination_class = None
