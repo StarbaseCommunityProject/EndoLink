@@ -4,12 +4,13 @@ import {
   LogInErrorResponse,
   LogInResponse,
   SignUpErrorResponse,
-  SignUpResponse,
-  User
+  SignUpResponse
 } from '../../types/authentication.types';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { IndexedDbService } from '../indexed-db/indexed-db.service';
+import { User } from '../../types/user.types';
+import { AuthenticatedHttpClient } from './authenticated-http-client.class';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,7 @@ export class AuthenticationService {
     = new BehaviorSubject<string | null>( null );
 
   constructor( private httpClient: HttpClient,
+               private authenticatedHttpClient: AuthenticatedHttpClient,
                private indexedDbService: IndexedDbService ) { }
 
   async signUp( username: string,
@@ -60,7 +62,6 @@ export class AuthenticationService {
                password: string )
     : Promise<LogInResponse | LogInErrorResponse>
   {
-    console.log( { username, password } )
     return this.httpClient.post( `${ this.apiUrl }/api/token`, { username, password } )
       .toPromise()
       .then( httpResponse => {
@@ -76,11 +77,21 @@ export class AuthenticationService {
           .then( () => {
             console.warn( 'saved token information' );
           } )
+        this.getCurrentUser();
         return httpResponse as LogInResponse;
       } )
       .catch( ( httpResponse: HttpErrorResponse ) => {
         throw { status: httpResponse.status, message: httpResponse.message } as LogInErrorResponse;
       } );
+  }
+
+  getCurrentUser()
+    : Promise<User | HttpErrorResponse>
+  {
+    return this.authenticatedHttpClient.get( 'api/current_user' ).then( response => {
+      console.log( response );
+      return response as User;
+    } );
   }
 
 }

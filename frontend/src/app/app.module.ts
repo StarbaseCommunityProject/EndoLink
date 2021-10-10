@@ -16,6 +16,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AuthenticatedHttpClient } from './services/authentication/authenticated-http-client.class';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     ReactiveFormsModule,
     MatTabsModule
   ],
-  providers: [],
+  providers: [
+    AuthenticatedHttpClient
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
