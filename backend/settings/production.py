@@ -8,4 +8,4 @@ DEBUG = False
 
 SIMPLE_JWT['SIGNING_KEY'] = SECRET_KEY
 
-ALLOWED_HOSTS.append("www.endo.link/")
+ALLOWED_HOSTS.append("www.endo.link")
