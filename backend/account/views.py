@@ -9,7 +9,7 @@ from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg.openapi import Parameter
-from .serializers import UserSerializer, RegisterSerializer, LogOutSerializer
+from .serializers import UserSerializer, RegisterSerializer, LogOutSerializer, LogOutAllSerializer
 
 
 # Create your views here.
@@ -57,7 +57,7 @@ class RegisterView(GenericAPIView):
         response = dict()
 
         if serialiser.is_valid():
-            new_user = serialiser.save()
+            new_user, new_user_extra_info = serialiser.save()
             refresh_token = RefreshToken.for_user(new_user)
             response['jwt'] = {'refresh': str(refresh_token), 'access': str(refresh_token.access_token)}
             response['user'] = UserSerializer(new_user, context={'request': request}).data
@@ -86,7 +86,7 @@ class LogOutView(GenericAPIView):
     filter_backends = []
     pagination_class = None
 
-    @swagger_auto_schema(manual_parameters=[Parameter(name="JWT token", in_="Authorization", type='token', required=True, description="Valid JWT access token"), Parameter(name="JWT refresh token", in_="refresh_token", type='token', required=True, description="Valid JWT refresh token")], operation_id="logout_user", tags=["users"])
+    @swagger_auto_schema(responses={204: "User logged out."}, operation_id="logout_user", tags=["users"])
     def post(self, request):
         response = dict()
 
@@ -110,18 +110,18 @@ class LogOutView(GenericAPIView):
 class LogOutAllView(GenericAPIView):
     """
     API endpoint to logout on all devices.
-
-    Known issue: Refreshed tokens aren't assigned a User, and hence won't be logged out through this.
     """
+    # Known issue: Refreshed tokens aren't assigned a User, and hence won't be logged out through this.
+
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     throttle_classes = [ScopedRateThrottle]
-    serializer_class = LogOutSerializer
+    serializer_class = LogOutAllSerializer
     throttle_scope = 'logout'
     filter_backends = []
     pagination_class = None
 
-    @swagger_auto_schema(manual_parameters=[Parameter(name="JWT token", in_="Authorization", type='string', required=True, description="Valid JWT access token")], operation_id="logout_user_all", tags=["users"])
+    @swagger_auto_schema(responses={204: "User logged out."}, operation_id="logout_user_all", tags=["users"])
     def post(self, request):
         response = dict()
 
