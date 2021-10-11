@@ -5,10 +5,42 @@ from django.core.exceptions import ValidationError
 from .models import UserExtraInfo
 
 
+class NestedUserExtraInfoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = UserExtraInfo
+        fields = ['in_game_name', 'discord_name', 'forum_name', 'bio', 'home_origin', 'profile_picture', 'profile_picture']
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    profile_picture = serializers.ImageField(source='userextrainfo.profile_picture', read_only=True)
+    extra_info = NestedUserExtraInfoSerializer(source='userextrainfo', read_only=True)
+
     class Meta:
         model = User
-        fields = ['url', 'id', 'username', 'email', 'groups', 'leading_faction', 'member_of_faction']
+        fields = ['url', 'id', 'username', 'password', 'email', 'groups', 'leading_faction', 'member_of_faction', 'profile_picture', 'extra_info']
+        extra_kwargs = {'leading_faction': {'read_only': True}, 'password': {'write_only': True, 'required': True}}
+
+    def save(self, **kwargs):
+        user = super(UserSerializer, self).save(**kwargs)
+        user.set_password(self.validated_data['password'])
+        user.save()
+
+        return user
+
+    def create(self, validated_data):
+        new_user = super(UserSerializer, self).create(validated_data)
+
+        new_user_extra_info = UserExtraInfo(user=new_user)
+        new_user_extra_info.save()
+
+        return new_user
+
+    def update(self, instance, validated_data):
+        user = super(UserSerializer, self).update(instance, validated_data)
+        if self.validated_data.get('password', None):
+            user.set_password(self.validated_data['password'])
+            user.save()
+        return user
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,7 +55,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'profile_picture']
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
     def validate(self, data):
         try:
@@ -41,7 +73,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         new_user_extra_info = UserExtraInfo(user=new_user, profile_picture=self.validated_data.get('profile_picture', None))
         new_user_extra_info.save()
 
-        return new_user, new_user_extra_info
+        return new_user
 
 
 class LogOutSerializer(serializers.Serializer):

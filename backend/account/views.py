@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
-from drf_yasg.openapi import Parameter
 from .serializers import UserSerializer, RegisterSerializer, LogOutSerializer, LogOutAllSerializer
 
 
@@ -57,7 +56,7 @@ class RegisterView(GenericAPIView):
         response = dict()
 
         if serialiser.is_valid():
-            new_user, new_user_extra_info = serialiser.save()
+            new_user = serialiser.save()
             refresh_token = RefreshToken.for_user(new_user)
             response['jwt'] = {'refresh': str(refresh_token), 'access': str(refresh_token.access_token)}
             response['user'] = UserSerializer(new_user, context={'request': request}).data
