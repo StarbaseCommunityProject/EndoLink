@@ -37,13 +37,11 @@ export class AuthenticationService {
     : Promise<SignUpResponse | SignUpErrorResponse>
   {
     const formData = new FormData();
-    console.log(picture)
     formData.append( 'username', username );
     formData.append( 'email', email );
     formData.append( 'password', password );
     if ( '0' in picture ) {
-      // @ts-ignore
-      formData.append( 'profile_picture', picture['0'] );
+      formData.append( 'profile_picture', picture['0'] as File );
     }
     return this.httpClient.post( `${ this.apiUrl }/api/register/`, formData, { headers: new HttpHeaders() } )
       .toPromise()
