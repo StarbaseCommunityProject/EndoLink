@@ -5,6 +5,10 @@
              type="file"
              accept=".png, .jpg, .jpeg, .webp"
              hidden #pictureInput>
+      <img *ngIf="avatarPreview"
+           [src]="avatarPreview"
+           class="avatar-preview"
+           alt="Avatar Preview">
       <button mat-flat-button (click)="pictureInput.click()">Choose Avatar</button>
       <br>
       <mat-form-field>

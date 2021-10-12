@@ -12,9 +12,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class SignUpDialogComponent implements OnInit {
 
   @ViewChild('pictureInput') pictureInput: any;
+
   signUpForm: FormGroup;
   logInForm: FormGroup;
   passwordErrorStateMatcher = new PasswordErrorStateMatcher()
+
+  avatarPreview: string | ArrayBuffer | null = null;
 
   constructor( private formBuilder: FormBuilder,
                private authenticationService: AuthenticationService,
@@ -30,6 +33,14 @@ export class SignUpDialogComponent implements OnInit {
     this.logInForm = this.formBuilder.group( {
       username: new FormControl( null, [ Validators.required, Validators.nullValidator ] ),
       password: new FormControl( null, [ Validators.required, Validators.nullValidator ] ),
+    } );
+
+    this.signUpForm.valueChanges.subscribe( async formChange => {
+      if ( formChange.picture && '0' in this.pictureInput.nativeElement.files ) {
+        this.getBase64Image( this.pictureInput.nativeElement.files[0] ).then( base64Image => {
+          this.avatarPreview = base64Image;
+        } );
+      }
     } );
   }
 
@@ -56,6 +67,15 @@ export class SignUpDialogComponent implements OnInit {
       .catch( error => {
         console.warn( error );
       } );
+  }
+
+  getBase64Image( image: File ): Promise<string | ArrayBuffer | null> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL( image );
+      reader.onload = () => resolve( reader.result );
+      reader.onerror = error => reject(error);
+    });
   }
 
 }
