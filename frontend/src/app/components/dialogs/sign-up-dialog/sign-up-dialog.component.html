@@ -3,6 +3,7 @@
     <div [formGroup]="signUpForm">
       <input formControlName="picture"
              type="file"
+             accept=".png, .jpg, .jpeg, .webp"
              hidden #pictureInput>
       <button mat-flat-button (click)="pictureInput.click()">Choose Avatar</button>
       <br>
