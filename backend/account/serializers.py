@@ -8,7 +8,7 @@ from .models import UserExtraInfo
 class NestedUserExtraInfoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserExtraInfo
-        fields = ['in_game_name', 'discord_name', 'forum_name', 'bio', 'home_origin', 'profile_picture', 'profile_picture']
+        fields = ['in_game_name', 'discord_name', 'forum_name', 'bio', 'home_origin', 'profile_picture']
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
