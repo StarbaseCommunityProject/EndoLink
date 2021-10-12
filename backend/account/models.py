@@ -20,7 +20,5 @@ class UserExtraInfo(models.Model):
 
     profile_picture = models.ImageField(null=True, blank=True, upload_to='profile_pictures')
 
-    registered_on = models.DateTimeField(default=now)
-
     def __str__(self):
         return self.user.username
