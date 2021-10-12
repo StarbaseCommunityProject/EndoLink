@@ -21,7 +21,7 @@
     <ng-template #profile>
       <div class="profile">
         <div class="pre-line"></div>
-        <div class="avatar"></div>
+        <img *ngIf="user?.profile_picture" [src]="user?.profile_picture" alt="avatar" class="avatar" />
         <p class="username">{{ user?.username }}</p>
       </div>
     </ng-template>

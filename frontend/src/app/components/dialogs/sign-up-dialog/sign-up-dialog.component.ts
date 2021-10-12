@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication/authentication.service';
 import { PasswordErrorStateMatcher, passwordValidator } from '../../validators/authentication.validators';
@@ -11,6 +11,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class SignUpDialogComponent implements OnInit {
 
+  @ViewChild('pictureInput') pictureInput: any;
   signUpForm: FormGroup;
   logInForm: FormGroup;
   passwordErrorStateMatcher = new PasswordErrorStateMatcher()
@@ -19,14 +20,15 @@ export class SignUpDialogComponent implements OnInit {
                private authenticationService: AuthenticationService,
                private dialogRef: MatDialogRef<SignUpDialogComponent> ) {
     this.signUpForm = this.formBuilder.group( {
-      username: new FormControl(null, [ Validators.required, Validators.nullValidator ] ),
+      picture: new FormControl( null ),
+      username: new FormControl( null, [ Validators.required, Validators.nullValidator ] ),
       email: new FormControl( null, [ Validators.required, Validators.email ] ),
       password: new FormControl( null, [ Validators.required ] ),
       passwordRepeat: new FormControl( null ),
     }, { validators: passwordValidator } );
 
     this.logInForm = this.formBuilder.group( {
-      username: new FormControl(null, [ Validators.required, Validators.nullValidator ] ),
+      username: new FormControl( null, [ Validators.required, Validators.nullValidator ] ),
       password: new FormControl( null, [ Validators.required, Validators.nullValidator ] ),
     } );
   }
@@ -36,7 +38,7 @@ export class SignUpDialogComponent implements OnInit {
 
   submitSignUp(): void {
     const { username, email, password } = this.signUpForm.value;
-    this.authenticationService.signUp( username, email, password )
+    this.authenticationService.signUp( username, email, password, this.pictureInput.nativeElement.files )
       .then( response => {
         this.dialogRef.close();
       } )
