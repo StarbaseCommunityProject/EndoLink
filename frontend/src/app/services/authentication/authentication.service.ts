@@ -7,7 +7,7 @@ import {
   SignUpResponse
 } from '../../types/authentication.types';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { IndexedDbService } from '../indexed-db/indexed-db.service';
 import { User } from '../../types/user.types';
 import { AuthenticatedHttpClient } from './authenticated-http-client.class';
@@ -32,10 +32,18 @@ export class AuthenticationService {
 
   async signUp( username: string,
                 email: string,
-                password: string )
+                password: string,
+                picture: { 0?: File } )
     : Promise<SignUpResponse | SignUpErrorResponse>
   {
-    return this.httpClient.post( `${ this.apiUrl }/api/register/`, { username, email, password } )
+    const formData = new FormData();
+    formData.append( 'username', username );
+    formData.append( 'email', email );
+    formData.append( 'password', password );
+    if ( '0' in picture ) {
+      formData.append( 'profile_picture', picture['0'] as File );
+    }
+    return this.httpClient.post( `${ this.apiUrl }/api/register/`, formData, { headers: new HttpHeaders() } )
       .toPromise()
       .then( httpResponse => {
         const { user, jwt } = httpResponse as SignUpResponse;

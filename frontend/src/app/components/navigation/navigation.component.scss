@@ -43,8 +43,14 @@
       color: $text;
     }
     .profile {
+      display: flex;
       height: 50px;
       cursor: pointer;
+      .avatar {
+        height: 50px;
+        width: 50px;
+        object-fit: cover;
+      }
       .username {
         margin: 0 0 0 32px;
         line-height: 50px;

@@ -1,25 +1,35 @@
 <mat-tab-group mat-align-tabs="center">
   <mat-tab label="Sign Up">
     <div [formGroup]="signUpForm">
-      <mat-form-field appearance="legacy">
+      <input formControlName="picture"
+             type="file"
+             accept=".png, .jpg, .jpeg, .webp"
+             hidden #pictureInput>
+      <img *ngIf="avatarPreview"
+           [src]="avatarPreview"
+           class="avatar-preview"
+           alt="Avatar Preview">
+      <button mat-flat-button (click)="pictureInput.click()">Choose Avatar</button>
+      <br>
+      <mat-form-field>
         <mat-label>Username</mat-label>
         <input formControlName="username"
                matInput
                placeholder="Placeholder">
       </mat-form-field>
-      <mat-form-field appearance="legacy">
+      <mat-form-field>
         <mat-label>Email</mat-label>
         <input formControlName="email"
                matInput
                placeholder="Placeholder">
       </mat-form-field>
-      <mat-form-field appearance="legacy">
+      <mat-form-field>
         <mat-label>Password</mat-label>
         <input formControlName="password"
                matInput placeholder="Placeholder"
                type="password">
       </mat-form-field>
-      <mat-form-field appearance="legacy">
+      <mat-form-field>
         <mat-label>Repeat</mat-label>
         <input formControlName="passwordRepeat"
                matInput
@@ -34,13 +44,13 @@
   </mat-tab>
   <mat-tab label="Log In">
     <div [formGroup]="logInForm">
-      <mat-form-field appearance="legacy">
+      <mat-form-field>
         <mat-label>Username</mat-label>
         <input formControlName="username"
                matInput
                placeholder="Placeholder">
       </mat-form-field>
-      <mat-form-field appearance="legacy">
+      <mat-form-field>
         <mat-label>Password</mat-label>
         <input formControlName="password"
                matInput placeholder="Placeholder"
