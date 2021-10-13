@@ -66,7 +66,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return super(RegisterSerializer, self).validate(data)
 
     def save(self, **kwargs):
-        new_user = User(email=self.validated_data['email'], username=self.validated_data['username'], is_staff=False, is_superuser=False)
+        new_user = User(email=self.validated_data['email'], username=self.validated_data['username'], is_staff=False, is_superuser=False)   # TODO: Replace this line with new_user = super(...) and check if nothing breaks (we need tests :DDDD)
         new_user.set_password(self.validated_data['password'])
         new_user.save()
 
@@ -74,6 +74,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         new_user_extra_info.save()
 
         return new_user
+
+
+class EditProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserExtraInfo
+        fields = ['in_game_name', 'discord_name', 'forum_name', 'bio', 'home_origin', 'profile_picture']
 
 
 class LogOutSerializer(serializers.Serializer):

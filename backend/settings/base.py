@@ -95,7 +95,8 @@ REST_FRAMEWORK = {
         'user': '30/minute',
         'register': '1/day',
         'faction_registration': '2/day',
-        'logout': '3/minute'
+        'logout': '3/minute',
+        'account_edit': '3/minute'
     },
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', 'rest_framework.filters.SearchFilter', 'rest_framework.filters.OrderingFilter'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
