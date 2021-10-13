@@ -6,6 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
+from rest_framework.parsers import MultiPartParser
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from .serializers import UserSerializer, RegisterSerializer, LogOutSerializer, LogOutAllSerializer, EditProfileSerializer
@@ -47,6 +48,7 @@ class RegisterView(GenericAPIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'register'
     serializer_class = RegisterSerializer
+    parser_classes = [MultiPartParser]
     filter_backends = []
     pagination_class = None
 
@@ -82,6 +84,7 @@ class EditProfileView(GenericAPIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'account_edit'
     serializer_class = EditProfileSerializer
+    parser_classes = [MultiPartParser]
     filter_backends = []
     pagination_class = None
 

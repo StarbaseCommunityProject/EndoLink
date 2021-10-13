@@ -66,7 +66,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return super(RegisterSerializer, self).validate(data)
 
     def save(self, **kwargs):
-        new_user = User(email=self.validated_data['email'], username=self.validated_data['username'], is_staff=False, is_superuser=False)
+        new_user = User(email=self.validated_data['email'], username=self.validated_data['username'], is_staff=False, is_superuser=False)   # TODO: Replace this line with new_user = super(...) and check if nothing breaks (we need tests :DDDD)
         new_user.set_password(self.validated_data['password'])
         new_user.save()
 
