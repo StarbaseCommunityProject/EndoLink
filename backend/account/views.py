@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
-from .serializers import UserSerializer, RegisterSerializer, LogOutSerializer, LogOutAllSerializer
+from .serializers import UserSerializer, RegisterSerializer, LogOutSerializer, LogOutAllSerializer, EditProfileSerializer
 
 
 # Create your views here.
@@ -61,6 +61,38 @@ class RegisterView(GenericAPIView):
             response['jwt'] = {'refresh': str(refresh_token), 'access': str(refresh_token.access_token)}
             response['user'] = UserSerializer(new_user, context={'request': request}).data
             response_status = status.HTTP_201_CREATED
+        else:
+            response = serialiser.errors
+            response_status = status.HTTP_400_BAD_REQUEST
+
+        return Response(response, status=response_status)
+
+    def options(self, request, *args, **kwargs):
+        meta = self.metadata_class()
+        data = meta.determine_metadata(request, self)
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
+class EditProfileView(GenericAPIView):
+    """
+    API endpoint to edit a user's information.
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'account_edit'
+    serializer_class = EditProfileSerializer
+    filter_backends = []
+    pagination_class = None
+
+    @swagger_auto_schema(operation_id="edit_profile", tags=["users"])
+    def post(self, request):
+        serialiser = EditProfileSerializer(request.user.userextrainfo, data=request.data, partial=True)
+
+        if serialiser.is_valid():
+            updated_userextrainfo = serialiser.save()
+            response = EditProfileSerializer(updated_userextrainfo, context={'request': request}).data
+            response_status = status.HTTP_202_ACCEPTED
         else:
             response = serialiser.errors
             response_status = status.HTTP_400_BAD_REQUEST

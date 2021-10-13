@@ -11,6 +11,7 @@ urlpatterns = [
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('current_user/', views.CurrentUserView.as_view(), name='current_user'),
     path('register/', views.RegisterView.as_view(), name='register'),
+    path('edit_profile/', views.EditProfileView.as_view(), name='edit_profile'),
     path('logout/', views.LogOutView.as_view(), name='logout'),
     path('logout_all/', views.LogOutAllView.as_view(), name='logout_all'),
     # path('', include('django.contrib.auth.urls')),  # Default Django auth module.

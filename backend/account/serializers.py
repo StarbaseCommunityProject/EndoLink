@@ -76,6 +76,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         return new_user
 
 
+class EditProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserExtraInfo
+        fields = ['in_game_name', 'discord_name', 'forum_name', 'bio', 'home_origin', 'profile_picture']
+
+
 class LogOutSerializer(serializers.Serializer):
     refresh_token = serializers.CharField(write_only=True)
 
